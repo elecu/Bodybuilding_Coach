@@ -1,0 +1,11 @@
+opencv-python>=4.8.0
+# MediaPipe Solutions (mp.solutions.*) was removed from mediapipe>=0.10.30.
+# This project currently uses the Solutions API for live pose + segmentation.
+# Pin below that cutoff until we migrate to MediaPipe Tasks.
+numpy>=1.26.0,<2.0
+mediapipe<0.10.30
+rich>=13.7.0
+pydantic>=2.6.0
+PyYAML>=6.0.1
+pandas>=2.2.0
+matplotlib>=3.8.0

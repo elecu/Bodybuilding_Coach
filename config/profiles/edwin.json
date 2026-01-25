@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "name": "edwin",
+  "federation": "PCA",
+  "selected_categories": ["Mens Physique"],
+  "first_timers": true,
+  "prep": {
+    "mode": "cutting",
+    "start_date": "",
+    "start_weight_kg": null
+  },
+  "plan": {
+    "competition_date": "",
+    "target_categories": ["Mens Physique"],
+    "first_timers": true
+  },
+  "bodyweight_log": [],
+  "contest_history": [],
+  "templates": {}
+}
