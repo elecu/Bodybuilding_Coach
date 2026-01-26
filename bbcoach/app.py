@@ -1,8 +1,12 @@
 from __future__ import annotations
 
-from dataclasses import asdict
+from collections import deque
+import json
+import uuid
+from dataclasses import asdict, dataclass
 from datetime import date
-from typing import Dict, Tuple
+from pathlib import Path
+from typing import Dict, Tuple, Optional
 
 import cv2
 import numpy as np
@@ -11,18 +15,37 @@ from .vision.source import OpenCVCameraSource
 
 from .profile import UserProfile
 from .vision.pose import PoseBackend
-from .vision.overlay import draw_pose_overlay, draw_mask_outline
-from .poses.library import POSES, ROUTINES
+from .vision.overlay import draw_pose_overlay, draw_mask_outline, draw_pose_guide
+from .poses.library import POSES, ROUTINES, POSE_GUIDES
 from .poses.scoring import score_pose
 from .metrics.proportions import compute_from_mask
 from .federations.library import cycle_federation, RULES
 from .planning.contest_plan import build_prep_summary
 from .storage.session import SessionStore
 from .utils.time import parse_date, days_until
+from .voice.commands import VoiceCommandConfig, VoiceCommandListener
 
 
-def _put_text(img, text, y, scale=0.6, colour=(255, 255, 255)):
-    cv2.putText(img, text, (12, y), cv2.FONT_HERSHEY_SIMPLEX, scale, colour, 2, cv2.LINE_AA)
+_TEXT_FONT = cv2.FONT_HERSHEY_DUPLEX
+_TEXT_COLOUR = (0, 255, 255)
+_TEXT_BG = (0, 0, 0)
+
+
+def _draw_text_bg(img, x: int, y: int, w: int, h: int, pad: int = 6, alpha: float = 0.55) -> None:
+    y0 = max(0, y - h - pad)
+    x0 = max(0, x - pad)
+    x1 = min(img.shape[1] - 1, x + w + pad)
+    y1 = min(img.shape[0] - 1, y + pad)
+    overlay = img.copy()
+    cv2.rectangle(overlay, (x0, y0), (x1, y1), _TEXT_BG, -1)
+    cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0, img)
+
+
+def _put_text(img, text, y, scale=0.6, colour=_TEXT_COLOUR, x: int = 12, bg: bool = True):
+    (tw, th), _ = cv2.getTextSize(text, _TEXT_FONT, scale, 2)
+    if bg:
+        _draw_text_bg(img, x, y, tw, th)
+    cv2.putText(img, text, (x, y), _TEXT_FONT, scale, colour, 2, cv2.LINE_AA)
 
 
 def _fmt_num(x: float | None, nd: int = 2) -> str:
@@ -56,7 +79,118 @@ def _suggest_category(profile: UserProfile, props) -> tuple[str, str]:
     return ("Classic", "Proportions look balanced; Classic can be a good long-term path if you enjoy mandatory poses.")
 
 
-def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, height: int = 720) -> None:
+@dataclass
+class AutoCaptureConfig:
+    enabled: bool = True
+    min_score: float = 70.0
+    stable_frames: int = 12
+    motion_threshold: float = 0.004
+    cooldown_frames: int = 6
+    top_k: int = 3
+    settle_frames: int = 10
+    pose_limit_mb: float = 100.0
+    pose_cleanup_batch: int = 10
+
+
+@dataclass
+class UIButton:
+    key: str
+    label: str
+    rect: Tuple[int, int, int, int]
+    active: bool = False
+
+
+_CATEGORY_NOTES = {
+    "Mens Physique": "Focus on V-taper, shoulders, and tight waist.",
+    "Classic": "Focus on balanced proportions and classic lines.",
+    "Bodybuilding": "Focus on mass, conditioning, and symmetry.",
+}
+
+
+def _avg_motion(prev: Dict[str, Tuple[float, float]] | None, cur: Dict[str, Tuple[float, float]] | None) -> float:
+    if not prev or not cur:
+        return 1.0
+    keys = prev.keys() & cur.keys()
+    if not keys:
+        return 1.0
+    diffs = []
+    for k in keys:
+        dx = cur[k][0] - prev[k][0]
+        dy = cur[k][1] - prev[k][1]
+        diffs.append((dx * dx + dy * dy) ** 0.5)
+    return float(np.mean(diffs)) if diffs else 1.0
+
+
+def _apply_cutout(frame: np.ndarray, mask: Optional[np.ndarray], bg_colour=(0, 0, 0)) -> np.ndarray:
+    if mask is None:
+        return frame
+    blur = cv2.GaussianBlur(mask, (9, 9), 0)
+    alpha = blur.astype(np.float32) / 255.0
+    alpha = alpha[..., None]
+    bg = np.zeros_like(frame, dtype=np.float32)
+    bg[:] = bg_colour
+    out = frame.astype(np.float32) * alpha + bg * (1 - alpha)
+    return out.astype(np.uint8)
+
+
+def _build_story_frame(frame: np.ndarray) -> np.ndarray:
+    target_w, target_h = 1080, 1920
+    h, w = frame.shape[:2]
+    scale = target_w / max(1, w)
+    new_h = max(1, int(h * scale))
+    resized = cv2.resize(frame, (target_w, new_h))
+    if new_h >= target_h:
+        y0 = (new_h - target_h) // 2
+        return resized[y0 : y0 + target_h].copy()
+    bg = cv2.resize(frame, (target_w, target_h))
+    bg = cv2.GaussianBlur(bg, (0, 0), 21)
+    y0 = (target_h - new_h) // 2
+    bg[y0 : y0 + new_h, :] = resized
+    return bg
+
+
+def _serialize_landmarks(landmarks: Dict[str, Tuple[float, float]]) -> Dict[str, list[float]]:
+    return {k: [float(v[0]), float(v[1])] for k, v in landmarks.items()}
+
+
+def _deserialize_landmarks(data: Optional[Dict[str, list[float]]]) -> Optional[Dict[str, Tuple[float, float]]]:
+    if not data:
+        return None
+    out: Dict[str, Tuple[float, float]] = {}
+    for k, v in data.items():
+        if isinstance(v, (list, tuple)) and len(v) == 2:
+            out[k] = (float(v[0]), float(v[1]))
+    return out or None
+
+
+def _draw_button(img: np.ndarray, btn: UIButton) -> None:
+    x, y, w, h = btn.rect
+    overlay = img.copy()
+    base = (30, 30, 30)
+    on = (0, 140, 200)
+    color = on if btn.active else base
+    cv2.rectangle(overlay, (x, y), (x + w, y + h), color, -1)
+    cv2.addWeighted(overlay, 0.6, img, 0.4, 0, img)
+    (tw, th), _ = cv2.getTextSize(btn.label, _TEXT_FONT, 0.5, 1)
+    tx = x + max(6, (w - tw) // 2)
+    ty = y + h - max(6, (h - th) // 2)
+    cv2.putText(img, btn.label, (tx, ty), _TEXT_FONT, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+
+
+def _in_rect(pt: Tuple[int, int], rect: Tuple[int, int, int, int]) -> bool:
+    x, y = pt
+    rx, ry, rw, rh = rect
+    return rx <= x <= rx + rw and ry <= y <= ry + rh
+
+
+def run_live(
+    profile: UserProfile,
+    camera: int | str = 0,
+    width: int = 1280,
+    height: int = 720,
+    voice: bool = False,
+    voice_model: Optional[str] = None,
+) -> None:
     # Video source (webcam-first). This is intentionally abstracted so we can
     # later drop in Kinect v2 without rewriting the coach logic.
     source = OpenCVCameraSource(device=camera, width=width, height=height)
@@ -90,6 +224,48 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
         source.close()
         return
     sessions = SessionStore.default()
+    voice_listener: Optional[VoiceCommandListener] = None
+    voice_enabled = False
+    voice_last_cmd = ""
+    voice_error = ""
+
+    def _resolve_voice_model(path_arg: Optional[str]) -> Optional[Path]:
+        candidates = []
+        if path_arg:
+            candidates.append(Path(path_arg))
+        root = Path(__file__).resolve().parent.parent
+        candidates.append(root / "models" / "vosk")
+        for cand in candidates:
+            if cand.exists() and cand.is_dir():
+                return cand
+        return None
+
+    if voice:
+        model_path = _resolve_voice_model(voice_model)
+        if model_path is None:
+            print("[bbcoach] Voice enabled but no Vosk model found.")
+            print("[bbcoach] Place a model under models/vosk or pass --voice-model /path/to/model.")
+        else:
+            try:
+                voice_listener = VoiceCommandListener(
+                    VoiceCommandConfig(model_path=str(model_path))
+                )
+                voice_listener.start()
+                voice_enabled = True
+                print("[bbcoach] Voice commands enabled (say: 'next pose' / 'siguiente pose').")
+            except Exception as exc:
+                voice_error = str(exc)
+                print(f"[bbcoach] Voice init failed: {voice_error}")
+
+    window_name = "BB Coach (Webcam)"
+    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+    mouse = {"click": None}
+
+    def _on_mouse(event, x, y, flags, _userdata):
+        if event == cv2.EVENT_LBUTTONDOWN:
+            mouse["click"] = (x, y)
+
+    cv2.setMouseCallback(window_name, _on_mouse)
 
     # Categories may contain multiple selections; pick the first for live routine.
     cat = profile.selected_categories[0] if profile.selected_categories else "Mens Physique"
@@ -98,6 +274,106 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
 
     # Snapshot template capture buffer
     stability_buf: list[dict] = []
+    auto_cfg = AutoCaptureConfig()
+    frame_idx = 0
+    last_landmarks: Optional[Dict[str, Tuple[float, float]]] = None
+    motion_buf: deque[float] = deque(maxlen=auto_cfg.stable_frames)
+    last_capture_frame = -9999
+    pose_switch_frame = 0
+    pose_captures: Dict[str, list[dict]] = {}
+    guide_enabled = True
+    cutout_enabled = False
+    show_info = False
+    show_category_menu = False
+
+    def _finalize_pose(pose_key: str) -> None:
+        shots = pose_captures.get(pose_key, [])
+        if len(shots) <= auto_cfg.top_k:
+            return
+        shots.sort(key=lambda s: s.get("score", 0.0), reverse=True)
+        keep = shots[: auto_cfg.top_k]
+        drop = shots[auto_cfg.top_k :]
+        for entry in drop:
+            _cleanup_capture(entry)
+        pose_captures[pose_key] = keep
+
+    def _set_pose_index(new_idx: int) -> None:
+        nonlocal pose_i, pose_switch_frame
+        if routine:
+            _finalize_pose(routine[pose_i])
+        pose_i = new_idx % len(routine)
+        pose_switch_frame = frame_idx
+        motion_buf.clear()
+
+    def _set_category(new_cat: str) -> None:
+        nonlocal cat, routine, pose_i, show_category_menu, pose_switch_frame
+        if routine:
+            _finalize_pose(routine[pose_i])
+        cat = new_cat
+        if cat not in profile.selected_categories:
+            profile.selected_categories.insert(0, cat)
+        profile.plan.target_categories = list(profile.selected_categories)
+        routine = ROUTINES.get(cat, ROUTINES["Mens Physique"])
+        pose_i = 0
+        pose_switch_frame = frame_idx
+        show_category_menu = False
+
+    def _build_snapshot_payload(pose_key: str, score: float, props_obj) -> dict:
+        return {
+            "profile": profile.name,
+            "federation": profile.federation,
+            "category": cat,
+            "pose": pose_key,
+            "pose_score": float(score),
+            "pose_features": ps.per_feature,
+            "proportions": asdict(props_obj) if props_obj is not None else None,
+            "competition_date": profile.plan.competition_date,
+            "first_timers": profile.first_timers,
+            "prep_mode": profile.prep.mode,
+        }
+
+    def _cleanup_capture(entry: dict) -> None:
+        for key in ("full_path", "cutout_path", "story_path"):
+            path = entry.get(key)
+            if isinstance(path, Path):
+                try:
+                    path.unlink(missing_ok=True)
+                except Exception:
+                    pass
+                index_path = path.parent / "index.json"
+                if index_path.exists():
+                    try:
+                        data = json.loads(index_path.read_text(encoding="utf-8"))
+                        if isinstance(data, list):
+                            data = [row for row in data if row.get("file") != path.name]
+                            index_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+                    except Exception:
+                        pass
+
+    def _save_auto_capture(
+        pose_key: str,
+        score: float,
+        frame_bgr: np.ndarray,
+        cutout_bgr: Optional[np.ndarray],
+        props_obj,
+        pose_display: str,
+    ) -> dict:
+        payload = _build_snapshot_payload(pose_key, score, props_obj)
+        capture_id = uuid.uuid4().hex
+        payload["capture_id"] = capture_id
+        entry = {"score": float(score)}
+        entry["full_path"] = sessions.save_capture(profile.name, payload, frame_bgr, variant="full")
+        if cutout_bgr is not None:
+            entry["cutout_path"] = sessions.save_capture(profile.name, payload, cutout_bgr, variant="cutout")
+
+        story_src = cutout_bgr if cutout_bgr is not None else frame_bgr
+        story = _build_story_frame(story_src)
+        title = pose_display
+        subtitle = f"Score {score:.1f}"
+        cv2.putText(story, title, (40, 100), _TEXT_FONT, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(story, subtitle, (40, 150), _TEXT_FONT, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
+        entry["story_path"] = sessions.save_capture(profile.name, payload, story, variant="story")
+        return entry
 
     print("Live coach started. Press Q to quit.")
 
@@ -106,8 +382,17 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
         if not ok:
             break
 
+        frame_idx += 1
         frame = cv2.flip(frame, 1)
         res = pose.process_bgr(frame)
+
+        if res.landmarks:
+            if last_landmarks:
+                motion_buf.append(_avg_motion(last_landmarks, res.landmarks))
+            last_landmarks = res.landmarks
+        else:
+            last_landmarks = None
+            motion_buf.clear()
 
         # Proportions from segmentation mask (if available)
         props = None
@@ -120,9 +405,7 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
             profile.plan.target_categories = [sug_cat]
             if sug_cat not in profile.selected_categories:
                 profile.selected_categories = [sug_cat]
-            cat = sug_cat
-            routine = ROUTINES.get(cat, ROUTINES["Mens Physique"])
-            pose_i = 0
+            _set_category(sug_cat)
 
         pose_key = routine[pose_i]
         pose_def = POSES[pose_key]
@@ -130,6 +413,7 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
         # Score pose
         tpl = profile.templates.get(pose_key)
         tpl_feats = tpl.get("features") if tpl else None
+        tpl_landmarks = _deserialize_landmarks(tpl.get("landmarks")) if tpl else None
         ps = score_pose(res.landmarks, pose_def.target, pose_def.tolerance, template_override=tpl_feats)
 
         # Map feature ok flags to joint/line ok flags (simple default)
@@ -145,9 +429,56 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
                 joint_ok["left_elbow"] = False
                 joint_ok["right_elbow"] = False
 
-        out = draw_pose_overlay(frame, res.landmarks, joint_ok=joint_ok, line_ok=line_ok)
-        if res.mask is not None:
+        cutout_frame = _apply_cutout(frame, res.mask, bg_colour=(10, 10, 10)) if res.mask is not None else None
+        display_frame = cutout_frame if cutout_enabled and cutout_frame is not None else frame
+        guide_landmarks = None
+        if guide_enabled:
+            guide_landmarks = tpl_landmarks or POSE_GUIDES.get(pose_key)
+
+        out = display_frame
+        if guide_landmarks:
+            out = draw_pose_guide(out, guide_landmarks)
+        out = draw_pose_overlay(out, res.landmarks, joint_ok=joint_ok, line_ok=line_ok)
+        if res.mask is not None and not cutout_enabled:
             out = draw_mask_outline(out, res.mask)
+
+        stable = False
+        if len(motion_buf) >= auto_cfg.stable_frames:
+            stable = float(np.mean(motion_buf)) < auto_cfg.motion_threshold
+
+        can_capture = (
+            auto_cfg.enabled
+            and stable
+            and bool(res.landmarks)
+            and ps.score_0_100 >= auto_cfg.min_score
+            and (frame_idx - last_capture_frame) >= auto_cfg.cooldown_frames
+            and (frame_idx - pose_switch_frame) >= auto_cfg.settle_frames
+        )
+        if can_capture:
+            entry = _save_auto_capture(
+                pose_key, ps.score_0_100, frame, cutout_frame, props, pose_def.display
+            )
+            last_capture_frame = frame_idx
+            pose_captures.setdefault(pose_key, []).append(entry)
+            removed = sessions.enforce_pose_storage_limit(
+                profile.name,
+                pose_key,
+                limit_mb=auto_cfg.pose_limit_mb,
+                batch_size=auto_cfg.pose_cleanup_batch,
+            )
+            if removed:
+                removed_names = {p.name for p in removed}
+                updated = []
+                for shot in pose_captures.get(pose_key, []):
+                    drop = False
+                    for key in ("full_path", "cutout_path", "story_path"):
+                        path = shot.get(key)
+                        if isinstance(path, Path) and path.name in removed_names:
+                            drop = True
+                            break
+                    if not drop:
+                        updated.append(shot)
+                pose_captures[pose_key] = updated
 
         # UI text
         fed_rules = RULES[profile.federation]
@@ -169,6 +500,28 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
         y += 26
         _put_text(out, f"Pose score: {ps.score_0_100:.1f}/100", y)
         y += 26
+        auto_status = "On" if auto_cfg.enabled else "Off"
+        guide_status = "On" if guide_enabled else "Off"
+        cutout_status = "On" if cutout_enabled else "Off"
+        captures = len(pose_captures.get(pose_key, []))
+        _put_text(out, f"Auto: {auto_status} | Guide: {guide_status} | Cutout: {cutout_status}", y)
+        y += 26
+        voice_status = "On" if voice_enabled else "Off"
+        voice_line = f"Voice: {voice_status}"
+        if voice_last_cmd:
+            voice_line += f" | Last: {voice_last_cmd}"
+        if voice_error:
+            voice_line += " | Error"
+        _put_text(out, voice_line, y, scale=0.55, colour=(220, 220, 220))
+        y += 22
+        _put_text(
+            out,
+            f"Auto captures: {captures} | Keep best {auto_cfg.top_k} on next pose | Stable: {'Yes' if stable else 'No'}",
+            y,
+            scale=0.55,
+            colour=(220, 220, 220),
+        )
+        y += 22
 
         if dts is not None:
             _put_text(out, f"Countdown: {dts} days to show", y)
@@ -189,17 +542,123 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
             _put_text(out, g, y, scale=0.55, colour=(220, 220, 220))
             y += 22
 
-        cv2.imshow("BB Coach (Webcam)", out)
+        def build_buttons() -> list[UIButton]:
+            buttons: list[UIButton] = []
+            btn_h = 26
+            btn_gap = 8
+            btn_y = out.shape[0] - 34
+            btn_x = 12
+            auto_label = "On" if auto_cfg.enabled else "Off"
+            cutout_label = "On" if cutout_enabled else "Off"
+            guide_label = "On" if guide_enabled else "Off"
+
+            def add(key: str, label: str, active: bool = False) -> None:
+                nonlocal btn_x
+                (tw, _), _meta = cv2.getTextSize(label, _TEXT_FONT, 0.5, 1)
+                w = tw + 18
+                buttons.append(UIButton(key=key, label=label, rect=(btn_x, btn_y, w, btn_h), active=active))
+                btn_x += w + btn_gap
+
+            add("prev_pose", "Prev")
+            add("next_pose", "Next")
+            add("auto", f"Auto {auto_label}", active=auto_cfg.enabled)
+            add("cutout", f"Cutout {cutout_label}", active=cutout_enabled)
+            add("guide", f"Guide {guide_label}", active=guide_enabled)
+
+            btn_y2 = btn_y - (btn_h + 8)
+            btn_x2 = 12
+
+            def add_row2(key: str, label: str, active: bool = False) -> None:
+                nonlocal btn_x2
+                (tw, _), _meta = cv2.getTextSize(label, _TEXT_FONT, 0.5, 1)
+                w = tw + 18
+                buttons.append(UIButton(key=key, label=label, rect=(btn_x2, btn_y2, w, btn_h), active=active))
+                btn_x2 += w + btn_gap
+
+            add_row2("category_menu", f"Category {cat}", active=show_category_menu)
+            add_row2("info", "Info", active=show_info)
+            if voice_listener is not None:
+                voice_label = "On" if voice_enabled else "Off"
+                add_row2("voice", f"Voice {voice_label}", active=voice_enabled)
+
+            if show_category_menu:
+                menu_y = btn_y2 - (btn_h + 8)
+                for cat_key in ROUTINES.keys():
+                    (tw, _), _meta = cv2.getTextSize(cat_key, _TEXT_FONT, 0.5, 1)
+                    w = tw + 18
+                    buttons.append(
+                        UIButton(
+                            key=f"cat:{cat_key}",
+                            label=cat_key,
+                            rect=(12, menu_y, w, btn_h),
+                            active=(cat_key == cat),
+                        )
+                    )
+                    menu_y -= btn_h + 6
+
+            return buttons
+
+        buttons = build_buttons()
+        click = mouse.get("click")
+        if click:
+            for btn in buttons:
+                if _in_rect(click, btn.rect):
+                    if btn.key == "prev_pose":
+                        _set_pose_index(pose_i - 1)
+                    elif btn.key == "next_pose":
+                        _set_pose_index(pose_i + 1)
+                    elif btn.key == "auto":
+                        auto_cfg.enabled = not auto_cfg.enabled
+                    elif btn.key == "cutout":
+                        cutout_enabled = not cutout_enabled
+                    elif btn.key == "guide":
+                        guide_enabled = not guide_enabled
+                    elif btn.key == "category_menu":
+                        show_category_menu = not show_category_menu
+                    elif btn.key == "info":
+                        show_info = not show_info
+                    elif btn.key == "voice":
+                        if voice_listener is not None:
+                            voice_enabled = not voice_enabled
+                    elif btn.key.startswith("cat:"):
+                        _set_category(btn.key.split(":", 1)[1])
+                    break
+            mouse["click"] = None
+            buttons = build_buttons()
+
+        for btn in buttons:
+            _draw_button(out, btn)
+
+        if show_info:
+            routine_names = [POSES[p].display for p in routine]
+            info_lines = [
+                f"{cat} info",
+                _CATEGORY_NOTES.get(cat, "Category info unavailable."),
+                "Routine:",
+            ] + [f"- {name}" for name in routine_names]
+            panel_w = min(520, out.shape[1] - 24)
+            panel_h = 20 * len(info_lines) + 16
+            panel_x = max(12, out.shape[1] - panel_w - 12)
+            panel_y = 18
+            overlay = out.copy()
+            cv2.rectangle(overlay, (panel_x, panel_y), (panel_x + panel_w, panel_y + panel_h), (0, 0, 0), -1)
+            cv2.addWeighted(overlay, 0.6, out, 0.4, 0, out)
+            ty = panel_y + 24
+            for line in info_lines:
+                cv2.putText(out, line, (panel_x + 12, ty), _TEXT_FONT, 0.55, (255, 255, 255), 1, cv2.LINE_AA)
+                ty += 20
+
+        cv2.imshow(window_name, out)
 
         key = cv2.waitKey(1) & 0xFF
         if key in (ord('q'), ord('Q')):
             break
 
         if key in (ord('n'), ord('N')):
-            pose_i = (pose_i + 1) % len(routine)
+            _set_pose_index(pose_i + 1)
 
         if key in (ord('p'), ord('P')):
-            pose_i = (pose_i - 1) % len(routine)
+            _set_pose_index(pose_i - 1)
 
         if key in (ord('f'), ord('F')):
             profile.federation = cycle_federation(profile.federation)  # type: ignore
@@ -212,11 +671,38 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
             # Cycle a small list; user can add more via profile editor
             cycle = ["Mens Physique", "Classic", "Bodybuilding"]
             cur = cycle.index(cat) if cat in cycle else 0
-            cat = cycle[(cur + 1) % len(cycle)]
-            if cat not in profile.selected_categories:
-                profile.selected_categories.insert(0, cat)
-            routine = ROUTINES.get(cat, ROUTINES["Mens Physique"])
-            pose_i = 0
+            _set_category(cycle[(cur + 1) % len(cycle)])
+
+        if key in (ord('a'), ord('A')):
+            auto_cfg.enabled = not auto_cfg.enabled
+
+        if key in (ord('g'), ord('G')):
+            guide_enabled = not guide_enabled
+
+        if key in (ord('b'), ord('B')):
+            cutout_enabled = not cutout_enabled
+
+        if key in (ord('i'), ord('I')):
+            show_info = not show_info
+
+        if key in (ord('m'), ord('M')):
+            show_category_menu = not show_category_menu
+
+        if key in (ord('v'), ord('V')) and voice_listener is not None:
+            voice_enabled = not voice_enabled
+
+        if voice_listener is not None:
+            if voice_listener.error() and not voice_error:
+                voice_error = voice_listener.error() or "voice error"
+                voice_enabled = False
+            if voice_enabled:
+                cmd = voice_listener.pop_command()
+                if cmd:
+                    voice_last_cmd = cmd
+                    if cmd == "next_pose":
+                        _set_pose_index(pose_i + 1)
+                    elif cmd == "prev_pose":
+                        _set_pose_index(pose_i - 1)
 
         if key == ord(' '):
             # Auto-capture a stable template: we buffer 20 frames and pick the one
@@ -229,24 +715,20 @@ def run_live(profile: UserProfile, camera: int | str = 0, width: int = 1280, hei
                 profile.templates[pose_key] = {
                     "captured": date.today().isoformat(),
                     "features": compute_template_features(best["lm"]),
+                    "landmarks": _serialize_landmarks(best["lm"]),
                 }
                 stability_buf.clear()
 
         if key in (ord('s'), ord('S')):
-            snap = {
-                "profile": profile.name,
-                "federation": profile.federation,
-                "category": cat,
-                "pose": pose_key,
-                "pose_score": ps.score_0_100,
-                "pose_features": ps.per_feature,
-                "proportions": asdict(props) if props is not None else None,
-                "competition_date": profile.plan.competition_date,
-                "first_timers": profile.first_timers,
-                "prep_mode": profile.prep.mode,
-            }
+            snap = _build_snapshot_payload(pose_key, ps.score_0_100, props)
             outp = sessions.save_snapshot(profile.name, snap)
             print(f"Saved snapshot: {outp}")
+
+    if routine:
+        _finalize_pose(routine[pose_i])
+
+    if voice_listener is not None:
+        voice_listener.stop()
 
     source.close()
     cv2.destroyAllWindows()

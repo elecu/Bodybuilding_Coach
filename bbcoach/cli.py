@@ -6,6 +6,7 @@ from pathlib import Path
 from .profile import ProfileStore
 from .app import run_live
 from .report import run_report
+from .compare import run_compare
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -28,6 +29,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_live.add_argument("--width", type=int, default=1280)
     p_live.add_argument("--height", type=int, default=720)
+    p_live.add_argument(
+        "--voice",
+        action="store_true",
+        help="Enable offline voice commands (requires a Vosk model directory).",
+    )
+    p_live.add_argument(
+        "--voice-model",
+        default=None,
+        help="Path to a Vosk model directory (default: ./models/vosk if present).",
+    )
 
     p_prof = sub.add_parser("profile", help="Profile management")
     subp = p_prof.add_subparsers(dest="action", required=True)
@@ -43,6 +54,19 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_report = sub.add_parser("report", help="Generate a simple progress report")
     p_report.add_argument("--profile", required=True)
+
+    p_compare = sub.add_parser("compare", help="Create a side-by-side pose comparison")
+    p_compare.add_argument("--profile", required=True)
+    p_compare.add_argument("--pose", required=True, help="Pose key or display name")
+    p_compare.add_argument("--date-a", default=None, help="Date YYYYMMDD (optional)")
+    p_compare.add_argument("--date-b", default=None, help="Date YYYYMMDD (optional)")
+    p_compare.add_argument(
+        "--variant",
+        default="cutout",
+        choices=["full", "cutout", "story"],
+        help="Capture variant to compare",
+    )
+    p_compare.add_argument("--out", default=None, help="Output file path (optional)")
 
     return p
 
@@ -70,13 +94,31 @@ def main(argv: list[str] | None = None) -> int:
         prof = store.load(args.profile)
         cam: int | str
         cam = int(args.camera) if str(args.camera).isdigit() else str(args.camera)
-        run_live(profile=prof, camera=cam, width=args.width, height=args.height)
+        run_live(
+            profile=prof,
+            camera=cam,
+            width=args.width,
+            height=args.height,
+            voice=args.voice,
+            voice_model=args.voice_model,
+        )
         store.save(prof)
         return 0
 
     if args.cmd == "report":
         prof = store.load(args.profile)
         run_report(profile=prof)
+        return 0
+
+    if args.cmd == "compare":
+        run_compare(
+            profile_name=args.profile,
+            pose=args.pose,
+            date_a=args.date_a,
+            date_b=args.date_b,
+            variant=args.variant,
+            out_path=args.out,
+        )
         return 0
 
     return 2

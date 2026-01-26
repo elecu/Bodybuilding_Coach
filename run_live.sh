@@ -5,12 +5,14 @@ PROFILE="${1:-}"
 CAM="${2:-}"
 WIDTH="${3:-1280}"
 HEIGHT="${4:-720}"
+VOICE_MODEL_ARG="${5:-}"
 
 if [[ -z "$PROFILE" ]]; then
-  echo "Usage: $0 <profile> [camera_index] [width] [height]"
+  echo "Usage: $0 <profile> [camera_index] [width] [height] [voice_model_path]"
   echo "Examples:"
   echo "  $0 edwin 5"
   echo "  $0 edwin       # interactive pick"
+  echo "  $0 edwin 5 1280 720 ./models/vosk"
   exit 1
 fi
 
@@ -64,4 +66,15 @@ PY
 fi
 
 say "Starting live coach: profile=$PROFILE camera=$CAM ${WIDTH}x${HEIGHT}"
-exec "$VENV_DIR/bin/python" -m bbcoach live --profile "$PROFILE" --camera-index "$CAM" --width "$WIDTH" --height "$HEIGHT"
+VOICE_MODEL="${VOICE_MODEL_ARG:-${VOICE_MODEL:-}}"
+if [[ -z "$VOICE_MODEL" && -d "$ROOT/models/vosk" ]]; then
+  VOICE_MODEL="$ROOT/models/vosk"
+fi
+
+VOICE_FLAGS=()
+if [[ -n "$VOICE_MODEL" ]]; then
+  VOICE_FLAGS=(--voice --voice-model "$VOICE_MODEL")
+  say "Voice enabled with model: $VOICE_MODEL"
+fi
+
+exec "$VENV_DIR/bin/python" -m bbcoach live --profile "$PROFILE" --camera-index "$CAM" --width "$WIDTH" --height "$HEIGHT" "${VOICE_FLAGS[@]}"

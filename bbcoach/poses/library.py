@@ -73,6 +73,54 @@ POSES: Dict[str, PoseDef] = {
     ),
 }
 
+POSE_GUIDES: Dict[str, Dict[str, tuple[float, float]]] = {
+    "mp_front": {
+        "nose": (0.50, 0.18),
+        "left_shoulder": (0.42, 0.30),
+        "right_shoulder": (0.58, 0.30),
+        "left_elbow": (0.34, 0.42),
+        "right_elbow": (0.66, 0.42),
+        "left_wrist": (0.32, 0.55),
+        "right_wrist": (0.68, 0.55),
+        "left_hip": (0.46, 0.56),
+        "right_hip": (0.54, 0.56),
+        "left_knee": (0.46, 0.72),
+        "right_knee": (0.54, 0.72),
+        "left_ankle": (0.47, 0.90),
+        "right_ankle": (0.53, 0.90),
+    },
+    "mp_back": {
+        "nose": (0.50, 0.18),
+        "left_shoulder": (0.42, 0.30),
+        "right_shoulder": (0.58, 0.30),
+        "left_elbow": (0.34, 0.42),
+        "right_elbow": (0.66, 0.42),
+        "left_wrist": (0.32, 0.55),
+        "right_wrist": (0.68, 0.55),
+        "left_hip": (0.46, 0.56),
+        "right_hip": (0.54, 0.56),
+        "left_knee": (0.46, 0.72),
+        "right_knee": (0.54, 0.72),
+        "left_ankle": (0.47, 0.90),
+        "right_ankle": (0.53, 0.90),
+    },
+    "bb_front_double_biceps": {
+        "nose": (0.50, 0.20),
+        "left_shoulder": (0.42, 0.32),
+        "right_shoulder": (0.58, 0.32),
+        "left_elbow": (0.30, 0.24),
+        "right_elbow": (0.70, 0.24),
+        "left_wrist": (0.28, 0.32),
+        "right_wrist": (0.72, 0.32),
+        "left_hip": (0.46, 0.56),
+        "right_hip": (0.54, 0.56),
+        "left_knee": (0.46, 0.74),
+        "right_knee": (0.54, 0.74),
+        "left_ankle": (0.47, 0.92),
+        "right_ankle": (0.53, 0.92),
+    },
+}
+
 
 # Simple routines for live coaching.
 ROUTINES: Dict[str, List[str]] = {

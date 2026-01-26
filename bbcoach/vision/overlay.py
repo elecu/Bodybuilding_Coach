@@ -59,3 +59,24 @@ def draw_mask_outline(frame: np.ndarray, mask: np.ndarray) -> np.ndarray:
     cnts, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cv2.drawContours(out, cnts, -1, (255, 255, 0), 2)
     return out
+
+
+def draw_pose_guide(
+    frame: np.ndarray,
+    landmarks: Dict[str, Tuple[float, float]],
+    colour: Tuple[int, int, int] = (0, 255, 255),
+    alpha: float = 0.35,
+) -> np.ndarray:
+    out = frame.copy()
+    overlay = out.copy()
+    h, w = out.shape[:2]
+
+    for a, b in LINKS:
+        if a in landmarks and b in landmarks:
+            cv2.line(overlay, _px(landmarks[a], w, h), _px(landmarks[b], w, h), colour, 2)
+
+    for _k, pt in landmarks.items():
+        cv2.circle(overlay, _px(pt, w, h), 5, colour, -1)
+
+    cv2.addWeighted(overlay, alpha, out, 1 - alpha, 0, out)
+    return out
