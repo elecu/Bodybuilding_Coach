@@ -26,9 +26,10 @@ from .utils.time import parse_date, days_until
 from .voice.commands import VoiceCommandConfig, VoiceCommandListener
 
 
-_TEXT_FONT = cv2.FONT_HERSHEY_DUPLEX
-_TEXT_COLOUR = (0, 255, 255)
-_TEXT_BG = (0, 0, 0)
+_TEXT_FONT = cv2.FONT_HERSHEY_TRIPLEX
+_TEXT_COLOUR = (235, 235, 235)
+_TEXT_ACCENT = (0, 230, 255)
+_TEXT_BG = (8, 8, 10)
 
 
 def _draw_text_bg(img, x: int, y: int, w: int, h: int, pad: int = 6, alpha: float = 0.55) -> None:
@@ -41,11 +42,20 @@ def _draw_text_bg(img, x: int, y: int, w: int, h: int, pad: int = 6, alpha: floa
     cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0, img)
 
 
-def _put_text(img, text, y, scale=0.6, colour=_TEXT_COLOUR, x: int = 12, bg: bool = True):
-    (tw, th), _ = cv2.getTextSize(text, _TEXT_FONT, scale, 2)
+def _put_text(
+    img,
+    text,
+    y,
+    scale=0.6,
+    colour=_TEXT_COLOUR,
+    x: int = 12,
+    bg: bool = True,
+    thickness: int = 1,
+):
+    (tw, th), _ = cv2.getTextSize(text, _TEXT_FONT, scale, thickness)
     if bg:
         _draw_text_bg(img, x, y, tw, th)
-    cv2.putText(img, text, (x, y), _TEXT_FONT, scale, colour, 2, cv2.LINE_AA)
+    cv2.putText(img, text, (x, y), _TEXT_FONT, scale, colour, thickness, cv2.LINE_AA)
 
 
 def _fmt_num(x: float | None, nd: int = 2) -> str:
@@ -133,20 +143,98 @@ def _apply_cutout(frame: np.ndarray, mask: Optional[np.ndarray], bg_colour=(0, 0
     return out.astype(np.uint8)
 
 
-def _build_story_frame(frame: np.ndarray) -> np.ndarray:
+def _subject_bbox(
+    mask: Optional[np.ndarray],
+    landmarks: Optional[Dict[str, Tuple[float, float]]],
+    w: int,
+    h: int,
+) -> Optional[Tuple[int, int, int, int]]:
+    if mask is not None:
+        ys, xs = np.where(mask > 0)
+        if xs.size and ys.size:
+            return int(xs.min()), int(ys.min()), int(xs.max()), int(ys.max())
+    if landmarks:
+        xs = [int(pt[0] * w) for pt in landmarks.values()]
+        ys = [int(pt[1] * h) for pt in landmarks.values()]
+        if xs and ys:
+            return min(xs), min(ys), max(xs), max(ys)
+    return None
+
+
+def _crop_to_story(
+    frame: np.ndarray,
+    mask: Optional[np.ndarray],
+    landmarks: Optional[Dict[str, Tuple[float, float]]],
+) -> np.ndarray:
     target_w, target_h = 1080, 1920
     h, w = frame.shape[:2]
-    scale = target_w / max(1, w)
-    new_h = max(1, int(h * scale))
-    resized = cv2.resize(frame, (target_w, new_h))
-    if new_h >= target_h:
-        y0 = (new_h - target_h) // 2
-        return resized[y0 : y0 + target_h].copy()
-    bg = cv2.resize(frame, (target_w, target_h))
-    bg = cv2.GaussianBlur(bg, (0, 0), 21)
-    y0 = (target_h - new_h) // 2
-    bg[y0 : y0 + new_h, :] = resized
-    return bg
+    aspect = target_w / target_h
+
+    bbox = _subject_bbox(mask, landmarks, w, h)
+    if bbox:
+        x0, y0, x1, y1 = bbox
+        cx = (x0 + x1) / 2.0
+        cy = (y0 + y1) / 2.0
+    else:
+        cx = w / 2.0
+        cy = h / 2.0
+
+    if w / h >= aspect:
+        crop_h = h
+        crop_w = int(h * aspect)
+        cx = max(crop_w / 2, min(w - crop_w / 2, cx))
+        x0 = int(cx - crop_w / 2)
+        y0 = 0
+    else:
+        crop_w = w
+        crop_h = int(w / aspect)
+        cy = max(crop_h / 2, min(h - crop_h / 2, cy))
+        x0 = 0
+        y0 = int(cy - crop_h / 2)
+
+    crop = frame[y0 : y0 + crop_h, x0 : x0 + crop_w]
+    return cv2.resize(crop, (target_w, target_h))
+
+
+def _draw_story_hud(canvas: np.ndarray, meta: Dict[str, str]) -> None:
+    h, w = canvas.shape[:2]
+    top_h = 170
+    bottom_h = 170
+    overlay = canvas.copy()
+    cv2.rectangle(overlay, (0, 0), (w, top_h), _TEXT_BG, -1)
+    cv2.rectangle(overlay, (0, h - bottom_h), (w, h), _TEXT_BG, -1)
+    cv2.addWeighted(overlay, 0.55, canvas, 0.45, 0, canvas)
+
+    pose = meta.get("pose", "").upper()
+    category = meta.get("category", "").upper()
+    score = meta.get("score", "")
+    date_tag = meta.get("date", "")
+    fed = meta.get("federation", "").upper()
+    first_timers = meta.get("first_timers", "").upper()
+
+    cv2.putText(canvas, pose, (40, 70), _TEXT_FONT, 1.0, _TEXT_COLOUR, 2, cv2.LINE_AA)
+    cv2.putText(canvas, category, (40, 120), _TEXT_FONT, 0.7, (200, 200, 200), 1, cv2.LINE_AA)
+    right_x = w - 40
+    if date_tag:
+        (tw, _), _meta = cv2.getTextSize(date_tag, _TEXT_FONT, 0.7, 1)
+        cv2.putText(canvas, date_tag, (right_x - tw, 120), _TEXT_FONT, 0.7, (200, 200, 200), 1, cv2.LINE_AA)
+
+    score_text = f"SCORE {score}"
+    cv2.putText(canvas, score_text, (40, h - 90), _TEXT_FONT, 1.1, _TEXT_ACCENT, 2, cv2.LINE_AA)
+    subline = " | ".join([t for t in [fed, first_timers] if t])
+    if subline:
+        cv2.putText(canvas, subline, (40, h - 35), _TEXT_FONT, 0.6, (200, 200, 200), 1, cv2.LINE_AA)
+
+
+def _build_story_frame(
+    frame: np.ndarray,
+    mask: Optional[np.ndarray],
+    landmarks: Optional[Dict[str, Tuple[float, float]]],
+    meta: Dict[str, str],
+) -> np.ndarray:
+    story = _crop_to_story(frame, mask, landmarks)
+    _draw_story_hud(story, meta)
+    return story
 
 
 def _serialize_landmarks(landmarks: Dict[str, Tuple[float, float]]) -> Dict[str, list[float]]:
@@ -166,15 +254,15 @@ def _deserialize_landmarks(data: Optional[Dict[str, list[float]]]) -> Optional[D
 def _draw_button(img: np.ndarray, btn: UIButton) -> None:
     x, y, w, h = btn.rect
     overlay = img.copy()
-    base = (30, 30, 30)
-    on = (0, 140, 200)
+    base = (20, 20, 24)
+    on = (30, 160, 200)
     color = on if btn.active else base
     cv2.rectangle(overlay, (x, y), (x + w, y + h), color, -1)
     cv2.addWeighted(overlay, 0.6, img, 0.4, 0, img)
     (tw, th), _ = cv2.getTextSize(btn.label, _TEXT_FONT, 0.5, 1)
     tx = x + max(6, (w - tw) // 2)
     ty = y + h - max(6, (h - th) // 2)
-    cv2.putText(img, btn.label, (tx, ty), _TEXT_FONT, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+    cv2.putText(img, btn.label, (tx, ty), _TEXT_FONT, 0.5, _TEXT_COLOUR, 1, cv2.LINE_AA)
 
 
 def _in_rect(pt: Tuple[int, int], rect: Tuple[int, int, int, int]) -> bool:
@@ -266,6 +354,7 @@ def run_live(
             mouse["click"] = (x, y)
 
     cv2.setMouseCallback(window_name, _on_mouse)
+    cv2.resizeWindow(window_name, width, height)
 
     # Categories may contain multiple selections; pick the first for live routine.
     cat = profile.selected_categories[0] if profile.selected_categories else "Mens Physique"
@@ -285,6 +374,8 @@ def run_live(
     cutout_enabled = False
     show_info = False
     show_category_menu = False
+    fullscreen = False
+    window_size: Optional[Tuple[int, int]] = None
 
     def _finalize_pose(pose_key: str) -> None:
         shots = pose_captures.get(pose_key, [])
@@ -317,6 +408,14 @@ def run_live(
         pose_i = 0
         pose_switch_frame = frame_idx
         show_category_menu = False
+
+    def _apply_window_state() -> None:
+        if fullscreen:
+            cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        else:
+            cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_NORMAL)
+            if window_size:
+                cv2.resizeWindow(window_name, window_size[0], window_size[1])
 
     def _build_snapshot_payload(pose_key: str, score: float, props_obj) -> dict:
         return {
@@ -355,6 +454,8 @@ def run_live(
         score: float,
         frame_bgr: np.ndarray,
         cutout_bgr: Optional[np.ndarray],
+        mask: Optional[np.ndarray],
+        landmarks: Optional[Dict[str, Tuple[float, float]]],
         props_obj,
         pose_display: str,
     ) -> dict:
@@ -367,11 +468,15 @@ def run_live(
             entry["cutout_path"] = sessions.save_capture(profile.name, payload, cutout_bgr, variant="cutout")
 
         story_src = cutout_bgr if cutout_bgr is not None else frame_bgr
-        story = _build_story_frame(story_src)
-        title = pose_display
-        subtitle = f"Score {score:.1f}"
-        cv2.putText(story, title, (40, 100), _TEXT_FONT, 1.0, (255, 255, 255), 2, cv2.LINE_AA)
-        cv2.putText(story, subtitle, (40, 150), _TEXT_FONT, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
+        meta = {
+            "pose": pose_display,
+            "category": cat,
+            "score": f"{score:.1f}",
+            "date": date.today().strftime("%Y-%m-%d"),
+            "federation": RULES[profile.federation].display_name,
+            "first_timers": f"FIRST TIMERS {'YES' if profile.first_timers else 'NO'}",
+        }
+        story = _build_story_frame(story_src, mask, landmarks, meta)
         entry["story_path"] = sessions.save_capture(profile.name, payload, story, variant="story")
         return entry
 
@@ -442,6 +547,12 @@ def run_live(
         if res.mask is not None and not cutout_enabled:
             out = draw_mask_outline(out, res.mask)
 
+        if not fullscreen:
+            size = (out.shape[1], out.shape[0])
+            if window_size != size:
+                window_size = size
+                cv2.resizeWindow(window_name, size[0], size[1])
+
         stable = False
         if len(motion_buf) >= auto_cfg.stable_frames:
             stable = float(np.mean(motion_buf)) < auto_cfg.motion_threshold
@@ -456,7 +567,14 @@ def run_live(
         )
         if can_capture:
             entry = _save_auto_capture(
-                pose_key, ps.score_0_100, frame, cutout_frame, props, pose_def.display
+                pose_key,
+                ps.score_0_100,
+                frame,
+                cutout_frame,
+                res.mask,
+                res.landmarks,
+                props,
+                pose_def.display,
             )
             last_capture_frame = frame_idx
             pose_captures.setdefault(pose_key, []).append(entry)
@@ -494,38 +612,58 @@ def run_live(
         )
 
         y = 26
-        _put_text(out, f"Federation: {fed_rules.display_name} | First Timers: {'Yes' if profile.first_timers else 'No'}", y)
-        y += 26
-        _put_text(out, f"Category: {cat} | Pose: {pose_def.display} ({pose_i+1}/{len(routine)})", y)
-        y += 26
-        _put_text(out, f"Pose score: {ps.score_0_100:.1f}/100", y)
-        y += 26
+        ft = "YES" if profile.first_timers else "NO"
+        _put_text(
+            out,
+            f"FEDERATION {fed_rules.display_name} | FIRST TIMERS {ft}",
+            y,
+            scale=0.5,
+            thickness=1,
+        )
+        y += 22
+        _put_text(
+            out,
+            f"CATEGORY {cat.upper()} | POSE {pose_def.display.upper()} ({pose_i+1}/{len(routine)})",
+            y,
+            scale=0.52,
+            thickness=1,
+        )
+        y += 24
+        _put_text(out, f"SCORE {ps.score_0_100:.1f}", y, scale=0.7, colour=_TEXT_ACCENT, thickness=2)
+        y += 30
         auto_status = "On" if auto_cfg.enabled else "Off"
         guide_status = "On" if guide_enabled else "Off"
         cutout_status = "On" if cutout_enabled else "Off"
         captures = len(pose_captures.get(pose_key, []))
-        _put_text(out, f"Auto: {auto_status} | Guide: {guide_status} | Cutout: {cutout_status}", y)
-        y += 26
+        _put_text(
+            out,
+            f"AUTO {auto_status.upper()} | GUIDE {guide_status.upper()} | CUTOUT {cutout_status.upper()}",
+            y,
+            scale=0.5,
+            thickness=1,
+        )
+        y += 22
         voice_status = "On" if voice_enabled else "Off"
         voice_line = f"Voice: {voice_status}"
         if voice_last_cmd:
             voice_line += f" | Last: {voice_last_cmd}"
         if voice_error:
             voice_line += " | Error"
-        _put_text(out, voice_line, y, scale=0.55, colour=(220, 220, 220))
-        y += 22
+        _put_text(out, voice_line.upper(), y, scale=0.48, colour=(200, 200, 200), thickness=1)
+        y += 20
         _put_text(
             out,
-            f"Auto captures: {captures} | Keep best {auto_cfg.top_k} on next pose | Stable: {'Yes' if stable else 'No'}",
+            f"AUTO CAPTURES {captures} | KEEP BEST {auto_cfg.top_k} ON NEXT POSE | STABLE {'YES' if stable else 'NO'}",
             y,
-            scale=0.55,
-            colour=(220, 220, 220),
+            scale=0.48,
+            colour=(200, 200, 200),
+            thickness=1,
         )
         y += 22
 
         if dts is not None:
-            _put_text(out, f"Countdown: {dts} days to show", y)
-            y += 26
+            _put_text(out, f"COUNTDOWN {dts} DAYS TO SHOW", y, scale=0.5, thickness=1)
+            y += 22
 
         # Proportions display
         if props is not None:
@@ -533,14 +671,20 @@ def run_live(
             cw = _fmt_num(props.chest_to_waist)
             hw = _fmt_num(props.hip_to_waist)
             ul = _fmt_num(props.upper_to_lower_area)
-            _put_text(out, f"S/W: {sw} | C/W: {cw} | H/W: {hw} | Upper/Lower area: {ul}", y)
-            y += 26
+            _put_text(
+                out,
+                f"S/W {sw} | C/W {cw} | H/W {hw} | U/L AREA {ul}",
+                y,
+                scale=0.5,
+                thickness=1,
+            )
+            y += 22
 
         # Guidance lines
         guide = pose_def.guidance[:2]
         for g in guide:
-            _put_text(out, g, y, scale=0.55, colour=(220, 220, 220))
-            y += 22
+            _put_text(out, g, y, scale=0.48, colour=(190, 190, 190), thickness=1)
+            y += 20
 
         def build_buttons() -> list[UIButton]:
             buttons: list[UIButton] = []
@@ -559,11 +703,11 @@ def run_live(
                 buttons.append(UIButton(key=key, label=label, rect=(btn_x, btn_y, w, btn_h), active=active))
                 btn_x += w + btn_gap
 
-            add("prev_pose", "Prev")
-            add("next_pose", "Next")
-            add("auto", f"Auto {auto_label}", active=auto_cfg.enabled)
-            add("cutout", f"Cutout {cutout_label}", active=cutout_enabled)
-            add("guide", f"Guide {guide_label}", active=guide_enabled)
+            add("prev_pose", "PREV")
+            add("next_pose", "NEXT")
+            add("auto", f"AUTO {auto_label.upper()}", active=auto_cfg.enabled)
+            add("cutout", f"CUTOUT {cutout_label.upper()}", active=cutout_enabled)
+            add("guide", f"GUIDE {guide_label.upper()}", active=guide_enabled)
 
             btn_y2 = btn_y - (btn_h + 8)
             btn_x2 = 12
@@ -575,11 +719,13 @@ def run_live(
                 buttons.append(UIButton(key=key, label=label, rect=(btn_x2, btn_y2, w, btn_h), active=active))
                 btn_x2 += w + btn_gap
 
-            add_row2("category_menu", f"Category {cat}", active=show_category_menu)
-            add_row2("info", "Info", active=show_info)
+            add_row2("category_menu", f"CATEGORY {cat.upper()}", active=show_category_menu)
+            add_row2("info", "INFO", active=show_info)
             if voice_listener is not None:
                 voice_label = "On" if voice_enabled else "Off"
-                add_row2("voice", f"Voice {voice_label}", active=voice_enabled)
+                add_row2("voice", f"VOICE {voice_label.upper()}", active=voice_enabled)
+            full_label = "On" if fullscreen else "Off"
+            add_row2("fullscreen", f"FULL {full_label.upper()}", active=fullscreen)
 
             if show_category_menu:
                 menu_y = btn_y2 - (btn_h + 8)
@@ -620,6 +766,9 @@ def run_live(
                     elif btn.key == "voice":
                         if voice_listener is not None:
                             voice_enabled = not voice_enabled
+                    elif btn.key == "fullscreen":
+                        fullscreen = not fullscreen
+                        _apply_window_state()
                     elif btn.key.startswith("cat:"):
                         _set_category(btn.key.split(":", 1)[1])
                     break
@@ -634,6 +783,7 @@ def run_live(
             info_lines = [
                 f"{cat} info",
                 _CATEGORY_NOTES.get(cat, "Category info unavailable."),
+                f"First Timers: {'Yes' if profile.first_timers else 'No'}",
                 "Routine:",
             ] + [f"- {name}" for name in routine_names]
             panel_w = min(520, out.shape[1] - 24)
@@ -690,6 +840,10 @@ def run_live(
 
         if key in (ord('v'), ord('V')) and voice_listener is not None:
             voice_enabled = not voice_enabled
+
+        if key in (ord('z'), ord('Z')):
+            fullscreen = not fullscreen
+            _apply_window_state()
 
         if voice_listener is not None:
             if voice_listener.error() and not voice_error:

@@ -20,7 +20,7 @@ class PoseDef:
 POSES: Dict[str, PoseDef] = {
     "mp_front": PoseDef(
         key="mp_front",
-        display="Men's Physique — Front",
+        display="Men's Physique - Front",
         target={
             "torso_upright": 0.0,
             "shoulder_level": 0.0,
@@ -39,7 +39,7 @@ POSES: Dict[str, PoseDef] = {
     ),
     "mp_back": PoseDef(
         key="mp_back",
-        display="Men's Physique — Back",
+        display="Men's Physique - Back",
         target={
             "torso_upright": 0.0,
             "shoulder_level": 0.0,
@@ -55,7 +55,7 @@ POSES: Dict[str, PoseDef] = {
     ),
     "bb_front_double_biceps": PoseDef(
         key="bb_front_double_biceps",
-        display="Bodybuilding — Front Double Biceps",
+        display="Bodybuilding - Front Double Biceps",
         target={
             "torso_upright": 0.0,
             "shoulder_level": 0.0,
