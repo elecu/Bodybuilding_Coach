@@ -19,3 +19,6 @@ venv/
 .cachepi/
 a.zip
 .boxes-unknown-2.draft.txt
+
+# --- Generated scan artefacts (private) ---
+bbcoach/data/scans/
