@@ -22,3 +22,6 @@ a.zip
 
 # --- Generated scan artefacts (private) ---
 bbcoach/data/scans/
+
+# --- Generated scan artefacts (private) ---
+data/scans/
