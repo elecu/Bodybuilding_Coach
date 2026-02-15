@@ -25,3 +25,7 @@ bbcoach/data/scans/
 
 # --- Generated scan artefacts (private) ---
 data/scans/
+
+# --- Local merge artefacts ---
+merge/
+
