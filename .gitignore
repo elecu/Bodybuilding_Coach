@@ -1,1 +1,21 @@
-/.venv
+# --- Private sessions (photos, reports, captures, logs) ---
+sessions/
+
+# --- Private local user profiles (but allow templates) ---
+config/profiles/edwin*.json
+config/profiles/*_private*.json
+
+# --- Python cache ---
+__pycache__/
+*.pyc
+
+# --- Common local stuff ---
+.venv/
+venv/
+*.log
+.DS_Store
+
+# --- Local cache / app state ---
+.cachepi/
+a.zip
+.boxes-unknown-2.draft.txt
