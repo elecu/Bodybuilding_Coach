@@ -1,4 +1,0 @@
-python merge.ply -110
-
-cloudcompare aligned_merged.pcd 
-
