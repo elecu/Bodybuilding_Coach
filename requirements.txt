@@ -11,3 +11,5 @@ pandas>=2.2.0
 matplotlib>=3.8.0
 vosk>=0.3.45
 sounddevice>=0.4.6
+# Required for 4-view AUTO MERGE and MANUAL ALIGN.
+open3d>=0.18.0

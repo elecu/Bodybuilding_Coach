@@ -8,7 +8,9 @@ from typing import Literal, Optional
 from pydantic import BaseModel, Field
 from pydantic.config import ConfigDict
 
-Federation = Literal["WNBF_UK", "PCA"]
+from .utils.cachepi import mirror_file
+Federation = Literal["WNBF_UK", "PCA", "UKBFF", "BNBF", "NABBA"]
+TTSBackend = Literal["piper_bin", "espeak", "auto"]
 
 
 class ContestResult(BaseModel):
@@ -32,6 +34,16 @@ class CompetitionPlan(BaseModel):
     first_timers: bool = True
 
 
+class AudioConfig(BaseModel):
+    mic_prefer: Optional[str] = None
+    mic_fallback: Optional[str] = None
+
+
+class VideoConfig(BaseModel):
+    depth_min_m: Optional[float] = None
+    depth_max_m: Optional[float] = None
+
+
 class UserProfile(BaseModel):
     # Keep "schema" in the saved JSON for forward compatibility, but avoid
     # shadowing BaseModel.schema (Pydantic warning).
@@ -50,6 +62,10 @@ class UserProfile(BaseModel):
 
     # Templates store pose features for personal matching
     templates: dict[str, dict] = Field(default_factory=dict)
+    audio: AudioConfig = Field(default_factory=AudioConfig)
+    video: VideoConfig = Field(default_factory=VideoConfig)
+    coach_voice: bool = False
+    tts_backend: TTSBackend = "piper_bin"
 
 
 @dataclass
@@ -85,13 +101,14 @@ class ProfileStore:
     def save(self, profile: UserProfile) -> None:
         p = self.path_for(profile.name)
         p.write_text(profile.model_dump_json(indent=2, by_alias=True), encoding="utf-8")
+        mirror_file(p)
 
     def edit_interactive(self, name: str) -> None:
         prof = self.load(name)
         print("--- Edit profile (press Enter to keep current value) ---")
 
-        fed = input(f"Federation [WNBF_UK/PCA] ({prof.federation}): ").strip()
-        if fed in ("WNBF_UK", "PCA"):
+        fed = input(f"Federation [WNBF_UK/UKBFF/PCA/BNBF/NABBA] ({prof.federation}): ").strip()
+        if fed in ("WNBF_UK", "UKBFF", "PCA", "BNBF", "NABBA"):
             prof.federation = fed  # type: ignore
 
         ft = input(f"First Timers? [y/n] ({'y' if prof.first_timers else 'n'}): ").strip().lower()

@@ -37,10 +37,56 @@ def _resolve_pose_key(pose_arg: str) -> str:
 def _list_date_dirs(base: Path) -> list[Path]:
     if not base.exists():
         return []
-    return sorted([p for p in base.iterdir() if p.is_dir() and p.name.isdigit() and len(p.name) == 8])
+    out = []
+    for p in base.iterdir():
+        if not p.is_dir():
+            continue
+        name = p.name
+        if name.isdigit() and len(name) == 8:
+            out.append(p)
+            continue
+        if len(name) == 10 and name[4] == "-" and name[7] == "-":
+            out.append(p)
+    return sorted(out)
 
 
 def _best_capture_for_date(date_dir: Path, pose_key: str, variant: str) -> Optional[CapturePick]:
+    poses_dir = date_dir / "poses"
+    if poses_dir.exists():
+        picks = []
+        for session_dir in poses_dir.iterdir():
+            if not session_dir.is_dir():
+                continue
+            meta_path = session_dir / "derived" / "meta.json"
+            if not meta_path.exists():
+                continue
+            try:
+                meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            if str(meta.get("pose") or meta.get("pose_id") or "") != pose_key:
+                continue
+            score = meta.get("pose_score")
+            try:
+                score_f = float(score)
+            except Exception:
+                score_f = 0.0
+            media = meta.get("media") or {}
+            rel = media.get(variant)
+            if rel:
+                path = session_dir / rel
+            else:
+                media_dir = session_dir / "media"
+                path = next(media_dir.glob(f"*_{variant}.jpg"), None)
+            if not path or not path.exists():
+                continue
+            picks.append((score_f, path))
+        if not picks:
+            return None
+        best_score, best_path = max(picks, key=lambda x: x[0])
+        return CapturePick(date_tag=date_dir.name, file_path=best_path, score=best_score)
+
+    # Legacy fallback: sessions/captures/<profile>/<YYYYMMDD>/index.json
     index_path = date_dir / "index.json"
     if not index_path.exists():
         return None
@@ -106,8 +152,11 @@ def run_compare(
 ) -> None:
     pose_key = _resolve_pose_key(pose)
     sessions = SessionStore.default()
-    base = sessions.root / "captures" / profile_name
+    base = sessions.root / profile_name
     date_dirs = _list_date_dirs(base)
+    if not date_dirs:
+        base = sessions.root / "captures" / profile_name
+        date_dirs = _list_date_dirs(base)
     if not date_dirs:
         print("No capture sessions found.")
         return

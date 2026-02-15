@@ -12,4 +12,6 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
+# requirements.txt includes open3d (needed for AUTO MERGE / MANUAL ALIGN)
+scripts/vendor_vosk_model_small_en_us.sh
 TXT

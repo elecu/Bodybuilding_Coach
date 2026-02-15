@@ -18,17 +18,28 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_live = sub.add_parser("live", help="Start live coach")
     p_live.add_argument("--profile", required=True, help="Profile name")
-    # Accept both --camera and the more explicit --camera-index
     p_live.add_argument(
+        "--source",
+        choices=["v4l2", "kinect2"],
+        default="v4l2",
+        help="Video source backend (default: v4l2).",
+    )
+    # Accept both --cam-index and legacy --camera / --camera-index.
+    p_live.add_argument(
+        "--cam-index",
         "--camera",
         "--camera-index",
-        dest="camera",
+        dest="cam_index",
         type=str,
         default="0",
-        help="Camera index (e.g. 0, 1, 2) or Linux device path (e.g. /dev/video2)",
+        help="Camera index (e.g. 0, 1, 2) or Linux device path (e.g. /dev/video2).",
     )
     p_live.add_argument("--width", type=int, default=1280)
     p_live.add_argument("--height", type=int, default=720)
+    p_live.add_argument("--depth-min", type=float, default=None, help="Optional depth clamp min (meters).")
+    p_live.add_argument("--depth-max", type=float, default=None, help="Optional depth clamp max (meters).")
+    p_live.add_argument("--mic", default=None, help="Prefer input device by substring (pactl source name).")
+    p_live.add_argument("--pose-every-n", type=int, default=None, help="Run pose inference every N frames.")
     p_live.add_argument(
         "--voice",
         action="store_true",
@@ -39,6 +50,37 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Path to a Vosk model directory (default: ./models/vosk if present).",
     )
+    p_live.add_argument(
+        "--coach-voice",
+        action="store_true",
+        default=None,
+        help="Enable spoken coaching (TTS).",
+    )
+    p_live.add_argument(
+        "--tts-backend",
+        choices=["piper_bin", "espeak", "auto"],
+        default=None,
+        help="TTS backend (piper_bin|espeak|auto).",
+    )
+
+    p_desktop = sub.add_parser("desktop", help="Start desktop app")
+    p_desktop.add_argument(
+        "--source",
+        choices=["none", "v4l2", "kinect2"],
+        default="none",
+        help="Initial source selection (default: none/offline).",
+    )
+    p_desktop.add_argument(
+        "--cam-index",
+        "--camera",
+        "--camera-index",
+        dest="cam_index",
+        type=str,
+        default="0",
+        help="Camera index (e.g. 0, 1, 2) or Linux device path (e.g. /dev/video2).",
+    )
+    p_desktop.add_argument("--width", type=int, default=1280)
+    p_desktop.add_argument("--height", type=int, default=720)
 
     p_prof = sub.add_parser("profile", help="Profile management")
     subp = p_prof.add_subparsers(dest="action", required=True)
@@ -68,6 +110,18 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_compare.add_argument("--out", default=None, help="Output file path (optional)")
 
+    p_scan = sub.add_parser("scan_capture", help="Capture 4-view scan (Kinect)")
+    p_scan.add_argument("--user", required=True, help="User/profile name")
+    p_scan.add_argument("--out", required=True, help="Sessions root directory")
+    p_scan.add_argument("--width", type=int, default=1280)
+    p_scan.add_argument("--height", type=int, default=720)
+
+    p_metrics = sub.add_parser("compute_metrics", help="Compute metrics from 4-view scan")
+    p_metrics.add_argument("--scan_dir", required=True, help="Scan directory (contains view_*)")
+
+    p_merge = sub.add_parser("auto_merge", help="Auto merge 4-view scan")
+    p_merge.add_argument("--scan_dir", required=True, help="Scan directory (contains view_*)")
+
     return p
 
 
@@ -93,7 +147,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "live":
         prof = store.load(args.profile)
         cam: int | str
-        cam = int(args.camera) if str(args.camera).isdigit() else str(args.camera)
+        cam = int(args.cam_index) if str(args.cam_index).isdigit() else str(args.cam_index)
+        if args.source in ("kinect2", "kinect"):
+            cam = None
         run_live(
             profile=prof,
             camera=cam,
@@ -101,8 +157,32 @@ def main(argv: list[str] | None = None) -> int:
             height=args.height,
             voice=args.voice,
             voice_model=args.voice_model,
+            coach_voice=args.coach_voice,
+            tts_backend=args.tts_backend,
+            source_kind=args.source,
+            depth_min=args.depth_min,
+            depth_max=args.depth_max,
+            mic=args.mic,
+            pose_every_n=args.pose_every_n,
         )
         store.save(prof)
+        return 0
+
+    if args.cmd == "desktop":
+        from .ui.desktop_app import run_desktop
+
+        cam: int | str | None
+        cam = int(args.cam_index) if str(args.cam_index).isdigit() else str(args.cam_index)
+        if args.source in ("kinect2", "kinect"):
+            cam = None
+        if args.source in ("none", "offline"):
+            cam = None
+        run_desktop(
+            source_kind=args.source,
+            camera=cam,
+            width=args.width,
+            height=args.height,
+        )
         return 0
 
     if args.cmd == "report":
@@ -120,5 +200,20 @@ def main(argv: list[str] | None = None) -> int:
             out_path=args.out,
         )
         return 0
+
+    if args.cmd == "scan_capture":
+        from .core.cli_scan import run_scan_capture
+
+        return run_scan_capture(args.user, Path(args.out), width=args.width, height=args.height)
+
+    if args.cmd == "compute_metrics":
+        from .core.cli_scan import run_compute_metrics
+
+        return run_compute_metrics(Path(args.scan_dir))
+
+    if args.cmd == "auto_merge":
+        from .core.cli_scan import run_auto_merge
+
+        return run_auto_merge(Path(args.scan_dir))
 
     return 2
