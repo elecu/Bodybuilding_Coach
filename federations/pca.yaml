@@ -1,0 +1,948 @@
+federation_id: pca
+federation_name: "Physical Culture Association (PCA)"
+season_year: 2025
+sources:
+  source_urls:
+    - https://www.pcaofficial.com/
+  source_files:
+    - References/PCA Criteria PDF.pdf
+    - docs/federations_summary.pdf
+    - docs/federations_summary.tex
+divisions:
+  - division_id: mens_bodybuilding_junior
+    division_name: "Junior Bodybuilding"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 16
+      age_max_years: 23
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mbb_round_quarters_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Athletes perform quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_mbb_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Bicep
+      - Front Lat Spread
+      - Side Chest
+      - Side Tricep
+      - Rear Double Bicep
+      - Rear Lat Spread
+      - Abdominals and Thigh
+      - Most Muscular
+    attire: "Attire will consist of posing trunks with no logos or motifs. Thongs are not permitted. Athletes should be free of body hair. No body jewellery is allowed."
+    notes_keywords: "Age limit: 23 years and under (23 years and 364 days)."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: mens_bodybuilding_first_timers
+    division_name: "First Timers Bodybuilding"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: "This class is for athletes who have never competed on stage before. Participation in model classes, independent shows, or local shows disqualifies an athlete from entering."
+      first_timer_only: true
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mbb_round_quarters_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Athletes perform quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_mbb_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Bicep
+      - Front Lat Spread
+      - Side Chest
+      - Side Tricep
+      - Rear Double Bicep
+      - Rear Lat Spread
+      - Abdominals and Thigh
+      - Most Muscular
+    attire: "Attire will consist of posing trunks with no logos or motifs. Thongs are not permitted. Athletes should be free of body hair. No body jewellery is allowed."
+    notes_keywords: "Open only to true first-time athletes."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: mens_bodybuilding_novice
+    division_name: "Novice Bodybuilding"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: "An athlete who has not placed in the top three of any federation's national final will be considered a novice. First Timers Classes or Junior Classes are exempt from this rule."
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mbb_round_quarters_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Athletes perform quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_mbb_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Bicep
+      - Front Lat Spread
+      - Side Chest
+      - Side Tricep
+      - Rear Double Bicep
+      - Rear Lat Spread
+      - Abdominals and Thigh
+      - Most Muscular
+    attire: "Attire will consist of posing trunks with no logos or motifs. Thongs are not permitted. Athletes should be free of body hair. No body jewellery is allowed."
+    notes_keywords: "Novice cannot move between open classes and back to novice (except Junior movement noted in source)."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: mens_bodybuilding_masters_over_40
+    division_name: "Masters Over 40's"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 40
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mbb_round_quarters_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Athletes perform quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_mbb_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Bicep
+      - Front Lat Spread
+      - Side Chest
+      - Side Tricep
+      - Rear Double Bicep
+      - Rear Lat Spread
+      - Abdominals and Thigh
+      - Most Muscular
+    attire: "Attire will consist of posing trunks with no logos or motifs. Thongs are not permitted. Athletes should be free of body hair. No body jewellery is allowed."
+    notes_keywords: "Athlete must be aged 40 or above at the qualifying show."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: mens_bodybuilding_masters_over_50
+    division_name: "Masters Over 50's"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 50
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mbb_round_quarters_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Athletes perform quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_mbb_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Bicep
+      - Front Lat Spread
+      - Side Chest
+      - Side Tricep
+      - Rear Double Bicep
+      - Rear Lat Spread
+      - Abdominals and Thigh
+      - Most Muscular
+    attire: "Attire will consist of posing trunks with no logos or motifs. Thongs are not permitted. Athletes should be free of body hair. No body jewellery is allowed."
+    notes_keywords: "Athlete must be aged 50 or above at the qualifying show."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: mens_bodybuilding_mr_classes
+    division_name: "Bodybuilding Short, Medium and Tall (Mr Classes)"
+    classes:
+      - class_id: mr_short_upto_5ft6
+        class_name: "Mr Class Short - Up to and including 5ft 6 inches"
+        min_height_cm: null
+        max_height_cm: 167.64
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text: Up to and including 5ft 6 inches."
+        needs_verification: false
+      - class_id: mr_medium_over_5ft6_upto_5ft10
+        class_name: "Mr Class Medium - Over 5ft 6 and up to and including 5ft 10"
+        min_height_cm: 167.6401
+        max_height_cm: 177.80
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text: Over 5ft 6 and up to and including 5ft 10."
+        needs_verification: false
+      - class_id: mr_tall_over_5ft10
+        class_name: "Mr Class Tall - Over 5ft 10 inches"
+        min_height_cm: 177.8001
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text: Over 5ft 10 inches."
+        needs_verification: false
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mbb_round_quarters_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Athletes perform quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_mbb_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Bicep
+      - Front Lat Spread
+      - Side Chest
+      - Side Tricep
+      - Rear Double Bicep
+      - Rear Lat Spread
+      - Abdominals and Thigh
+      - Most Muscular
+    attire: "Attire will consist of posing trunks with no logos or motifs. Thongs are not permitted. Athletes should be free of body hair. No body jewellery is allowed."
+    notes_keywords: "For clarity: There are no weight-to-height limits for this class."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: classic_bodybuilding
+    division_name: "Classic Bodybuilding"
+    classes:
+      - class_id: classic_large_short_under_175
+        class_name: "Short Class: Under 175 cm (larger groups)"
+        min_height_cm: null
+        max_height_cm: 175.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text says under 175 cm (strictly under)."
+        needs_verification: false
+      - class_id: classic_large_medium_over_175_1
+        class_name: "Medium Class: Over 175.1 cm (larger groups)"
+        min_height_cm: 175.1001
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text does not provide an explicit upper boundary."
+        needs_verification: true
+      - class_id: classic_large_tall_over_180_1
+        class_name: "Tall Class: Over 180.1 cm (larger groups)"
+        min_height_cm: 180.1001
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text: Over 180.1 cm."
+        needs_verification: false
+      - class_id: classic_small_short_under_178
+        class_name: "Short Class: Under 178 cm (smaller groups)"
+        min_height_cm: null
+        max_height_cm: 178.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text says under 178 cm (strictly under)."
+        needs_verification: false
+      - class_id: classic_small_tall_over_178_1
+        class_name: "Tall Class: Over 178.1 cm (smaller groups)"
+        min_height_cm: 178.1001
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text: Over 178.1 cm."
+        needs_verification: false
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_classic_round_quarters_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Athletes perform quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_classic_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Bicep
+      - Front Lat Spread
+      - Side Chest
+      - Side Tricep
+      - Rear Double Bicep
+      - Rear Lat Spread
+      - Abdominals and Thigh
+      - Most Muscular
+      - Classical pose of your choice
+    attire: "Attire will consist of posing trunks with no logos or motifs. Thongs are not permitted. Athletes should be free of body hair. No body jewellery is allowed."
+    notes_keywords: "In larger groups, classes may be split into Tall, Medium, and Short. In smaller groups, classes are split into Tall and Short."
+    needs_verification: true
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: mens_physique_open
+    division_name: "Men's Physique"
+    classes:
+      - class_id: mens_physique_short_upto_178
+        class_name: "Short Class: Up to and including 178 cm"
+        min_height_cm: null
+        max_height_cm: 178.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Used when classes are split into Tall and Short."
+        needs_verification: false
+      - class_id: mens_physique_tall_over_178_1
+        class_name: "Tall Class: Over 178.1 cm"
+        min_height_cm: 178.1001
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Used when classes are split into Tall and Short."
+        needs_verification: false
+      - class_id: mens_physique_medium_threshold_unspecified
+        class_name: "Medium Class"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source states classes may be divided into short, medium, and tall when entries exceed a certain amount, but medium threshold is not specified."
+        needs_verification: true
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mp_round_quarter_turns_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_mp_round_iwalk
+        round_name: "I Walk"
+        judged_on: "I Walk performed in numerical order."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front-Facing, Arms Overhead, Open Handed
+      - Left Side Showing Abdominals and Obliques with Left Hand Behind Head
+      - Rear-Facing, Arms Overhead, Open Handed
+      - Right Side Showing Abdominals and Obliques with Right Hand Behind Head
+      - Front-Facing Abdominals Pose
+    attire: "Attire will consist of long board shorts of any colour that do not extend below the knee. Athletes should be free of body hair, and no body jewellery is allowed."
+    notes_keywords: "In side poses, the remaining hand can be on or off the hips."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: mens_physique_junior
+    division_name: "Junior Men's Physique"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 16
+      age_max_years: 23
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mp_round_quarter_turns_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_mp_round_iwalk
+        round_name: "I Walk"
+        judged_on: "I Walk performed in numerical order."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front-Facing, Arms Overhead, Open Handed
+      - Left Side Showing Abdominals and Obliques with Left Hand Behind Head
+      - Rear-Facing, Arms Overhead, Open Handed
+      - Right Side Showing Abdominals and Obliques with Right Hand Behind Head
+      - Front-Facing Abdominals Pose
+    attire: "Attire will consist of long board shorts of any colour that do not extend below the knee. Athletes should be free of body hair, and no body jewellery is allowed."
+    notes_keywords: "Age limit: 23 years and under (23 years and 364 days)."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: mens_physique_masters_35_plus
+    division_name: "Masters Men's Physique"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 35
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mp_round_quarter_turns_compulsories
+        round_name: "Quarter turns and compulsory poses"
+        judged_on: "Quarter turns and compulsory poses in line-up/comparisons."
+        routine_time_limit_seconds: null
+      - round_id: pca_mp_round_iwalk
+        round_name: "I Walk"
+        judged_on: "I Walk performed in numerical order."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front-Facing, Arms Overhead, Open Handed
+      - Left Side Showing Abdominals and Obliques with Left Hand Behind Head
+      - Rear-Facing, Arms Overhead, Open Handed
+      - Right Side Showing Abdominals and Obliques with Right Hand Behind Head
+      - Front-Facing Abdominals Pose
+    attire: "Attire will consist of long board shorts of any colour that do not extend below the knee. Athletes should be free of body hair, and no body jewellery is allowed."
+    notes_keywords: "Athlete must be aged 35 or above at the qualifying show."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: mixed_disability
+    division_name: "Mixed Disability"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+        - Female
+        - Other
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: "This class is open to disabled athletes only. Competitors must provide documentation of a recognised physical or cognitive disability."
+      first_timer_only: false
+      disability_required: true
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_mixed_disability_round
+        round_name: "Mixed Disability evaluation"
+        judged_on: "Judging may consider the competitor's ability to showcase physique and skills relative to their disability."
+        routine_time_limit_seconds: null
+    mandatory_poses: null
+    attire: null
+    notes_keywords: "Depending on the specific disability, competitors may be classified into different categories or divisions to ensure fair competition."
+    needs_verification: true
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: ladies_bikini_short_medium_tall
+    division_name: "Bikini Short/Medium/Tall"
+    classes:
+      - class_id: bikini_short_upto_164
+        class_name: "Short: Up to and including 164 cm"
+        min_height_cm: null
+        max_height_cm: 164.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text: Short up to and including 164 cm (5 feet 4.5 inches)."
+        needs_verification: false
+      - class_id: bikini_tall_over_164_1
+        class_name: "Tall: Over 164.1 cm"
+        min_height_cm: 164.1001
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source text: Tall over 164.1 cm."
+        needs_verification: false
+      - class_id: bikini_medium_threshold_unspecified
+        class_name: "Medium"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Source states classes may be divided into short, medium, and tall when entries exceed a certain amount, but medium threshold is not specified."
+        needs_verification: true
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_bikini_round_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Quarter-turn sequence as directed by judges."
+        routine_time_limit_seconds: null
+      - round_id: pca_bikini_round_iwalk
+        round_name: "I Walk"
+        judged_on: "Individual I Walk presentation."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Left-side position: right leg straight, left leg bent, right hand on hip, left arm down (or alternate leg variant)
+      - Rear-facing position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Right-side position: left leg straight, right leg bent, left hand on hip, right arm down (or alternate leg variant)
+    attire: "Attire will consist of a two-piece bikini of any colour, fabric, or texture. Heel height must be no more than 5 inches. Athletes must not wear tiaras or any other head-dress. Jewellery can be worn but must be tasteful."
+    notes_keywords: "Judged on an athletically toned physique that promotes a healthy lifestyle."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: ladies_junior_bikini
+    division_name: "Junior Bikini"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: 16
+      age_max_years: 23
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_bikini_round_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Quarter-turn sequence as directed by judges."
+        routine_time_limit_seconds: null
+      - round_id: pca_bikini_round_iwalk
+        round_name: "I Walk"
+        judged_on: "Individual I Walk presentation."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Left-side position: right leg straight, left leg bent, right hand on hip, left arm down (or alternate leg variant)
+      - Rear-facing position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Right-side position: left leg straight, right leg bent, left hand on hip, right arm down (or alternate leg variant)
+    attire: "Attire will consist of a two-piece bikini of any colour, fabric, or texture. Heel height must be no more than 5 inches. Athletes must not wear tiaras or any other head-dress. Jewellery can be worn but must be tasteful."
+    notes_keywords: "Age limit: 23 years and under (23 years and 364 days)."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: ladies_bikini_trained
+    division_name: "Bikini Trained"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_bikini_round_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Quarter-turn sequence as directed by judges."
+        routine_time_limit_seconds: null
+      - round_id: pca_bikini_round_iwalk
+        round_name: "I Walk"
+        judged_on: "Individual I Walk presentation."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Left-side position: right leg straight, left leg bent, right hand on hip, left arm down (or alternate leg variant)
+      - Rear-facing position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Right-side position: left leg straight, right leg bent, left hand on hip, right arm down (or alternate leg variant)
+    attire: "Attire will consist of a two-piece bikini of any colour, fabric, or texture. Heel height must be no more than 5 inches. Athletes must not wear tiaras or any other head-dress. Jewellery can be worn but must be tasteful."
+    notes_keywords: "Judged on an athletically trained physique with low body fat."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: ladies_bikini_masters_35_plus
+    division_name: "Bikini Masters 35+"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: 35
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_bikini_round_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Quarter-turn sequence as directed by judges."
+        routine_time_limit_seconds: null
+      - round_id: pca_bikini_round_iwalk
+        round_name: "I Walk"
+        judged_on: "Individual I Walk presentation."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Left-side position: right leg straight, left leg bent, right hand on hip, left arm down (or alternate leg variant)
+      - Rear-facing position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Right-side position: left leg straight, right leg bent, left hand on hip, right arm down (or alternate leg variant)
+    attire: "Attire will consist of a two-piece bikini of any colour, fabric, or texture. Heel height must be no more than 5 inches. Athletes must not wear tiaras or any other head-dress. Jewellery can be worn but must be tasteful."
+    notes_keywords: "Athlete must be aged 35 or over at the qualifying show."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: ladies_bikini_masters_45_plus
+    division_name: "Bikini Masters 45+"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: 45
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: "In instances where there are three or more athletes registered who are 45 or older, the Bikini Masters 45+ category will be offered."
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_bikini_round_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Quarter-turn sequence as directed by judges."
+        routine_time_limit_seconds: null
+      - round_id: pca_bikini_round_iwalk
+        round_name: "I Walk"
+        judged_on: "Individual I Walk presentation."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Left-side position: right leg straight, left leg bent, right hand on hip, left arm down (or alternate leg variant)
+      - Rear-facing position: one hand on hip and the other arm down (or both hands on hips / both arms down)
+      - Right-side position: left leg straight, right leg bent, left hand on hip, right arm down (or alternate leg variant)
+    attire: "Attire will consist of a two-piece bikini of any colour, fabric, or texture. Heel height must be no more than 5 inches. Athletes must not wear tiaras or any other head-dress. Jewellery can be worn but must be tasteful."
+    notes_keywords: "Athlete must be aged 45 or over at the qualifying show."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: ladies_wellness
+    division_name: "Ladies' Wellness"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_wellness_round_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Quarter-turn positions with emphasis on lower half of physique."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front position: left hip remains visible; straight right leg at the back carrying most weight; bent left leg at the front; right hand on hip and left arm down
+      - Side position (left side showing): left leg straight, right leg bent, right hand on hip, left arm down
+      - Rear-facing position: feet hip-width apart, both palms on thighs, arms straight and vertical, emphasis on lower half of physique
+      - Side position (right side showing): right leg straight, left leg bent, left hand on hip, right arm down
+    attire: "For further details on attire, refer to page 12 (bikini attire criteria)."
+    notes_keywords: "Emphasis must remain on glute, hamstring, hip, and thigh development."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: ladies_toned_figure
+    division_name: "Ladies' Toned Figure"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_figure_round_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Quarter-turn sequence in line-up."
+        routine_time_limit_seconds: null
+      - round_id: pca_figure_round_compulsory
+        round_name: "Compulsory poses"
+        judged_on: "Compulsory pose sequence."
+        routine_time_limit_seconds: null
+      - round_id: pca_figure_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Quarter turn: Front position (feet together, hips facing judges, arms down and slightly away)
+      - Quarter turn: Side position showing left side
+      - Quarter turn: Rear position (feet together, hips facing judges, arms down and away)
+      - Quarter turn: Side position showing right side
+      - Front pose with arms overhead (side or front position optional)
+      - Side pose of choice (right or left side optional)
+      - Rear pose with arms overhead (no excessive bending forward at the waist)
+      - Side pose of choice (right or left side optional)
+    attire: "Two-piece bikini of any colour/fabric/texture; heel height no more than 5 inches; no tiaras or headgear; jewellery may be worn if tasteful."
+    notes_keywords: "Judged on a toned physique without excessive definition or dieting."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: ladies_athletic_figure
+    division_name: "Ladies' Athletic Figure"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_figure_round_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Quarter-turn sequence in line-up."
+        routine_time_limit_seconds: null
+      - round_id: pca_figure_round_compulsory
+        round_name: "Compulsory poses"
+        judged_on: "Compulsory pose sequence."
+        routine_time_limit_seconds: null
+      - round_id: pca_figure_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Quarter turn: Front position (feet together, hips facing judges, arms down and slightly away)
+      - Quarter turn: Side position showing left side
+      - Quarter turn: Rear position (feet together, hips facing judges, arms down and away)
+      - Quarter turn: Side position showing right side
+      - Front pose with hands overhead (side or front position optional)
+      - Side pose of choice (right or left side optional)
+      - Rear pose with arms overhead (no excessive bending forward at the waist)
+      - Side pose of choice (right or left side optional)
+    attire: "Two-piece bikini of any colour/fabric/texture; heel height no more than 5 inches; no tiaras or headgear; jewellery may be worn if tasteful."
+    notes_keywords: "Judged on an athletic physique with feminine muscularity and low body fat."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf
+
+  - division_id: ladies_trained_figure
+    division_name: "Ladies' Trained Figure"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: 16
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      disability_required: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: pca_figure_round_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Quarter-turn sequence in line-up."
+        routine_time_limit_seconds: null
+      - round_id: pca_figure_round_compulsory
+        round_name: "Compulsory poses"
+        judged_on: "Compulsory pose sequence."
+        routine_time_limit_seconds: null
+      - round_id: pca_figure_round_individual_routine
+        round_name: "Individual posing routine"
+        judged_on: "Individual free posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Quarter turn: Front position (feet together, hips facing judges, arms down and slightly away)
+      - Quarter turn: Side position showing left side
+      - Quarter turn: Rear position (feet together, hips facing judges, arms down and away)
+      - Quarter turn: Side position showing right side
+      - Front pose with hands overhead (side or front position optional)
+      - Side pose of choice (right or left side optional)
+      - Rear pose with arms overhead (no excessive bending forward at the waist)
+      - Side pose of choice (right or left side optional)
+    attire: "Two-piece bikini of any colour/fabric/texture; heel height no more than 5 inches; no tiaras or headgear; jewellery may be worn if tasteful."
+    notes_keywords: "Judged on high levels of muscle mass and low body fat, allowing visible striations."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.pcaofficial.com/
+      source_files:
+        - References/PCA Criteria PDF.pdf

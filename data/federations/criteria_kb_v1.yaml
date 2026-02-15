@@ -1,0 +1,721 @@
+kb_version: "v1"
+citations:
+  PCA_2025:
+    title: "PCA Criteria 2025"
+    url: "https://www.pcaofficial.com/_files/ugd/609e3c_d2f5b473c01c455d9ae0040b131769f0.pdf"
+    document: "PCA Criteria 2025"
+  UKBFF_RULES_PAGE:
+    title: "UKBFF Rules"
+    url: "https://www.ukbff.co.uk/ukbff-rules"
+    document: "UKBFF Rules page"
+  UKBFF_CLASSIC_BB_RULES:
+    title: "UKBFF Classic Bodybuilder Rules"
+    url: "https://www.ukbff.co.uk/s/rules-Classic-Bodybuilder.pdf"
+    document: "UKBFF Classic Bodybuilder Rules"
+  UKBFF_CLASSIC_PHYS_CATS:
+    title: "UKBFF Classic Physique Categories"
+    url: "https://www.ukbff.co.uk/s/Categories-in-Classic-Physique-UKBFF.pdf"
+    document: "UKBFF Classic Physique Categories"
+  IFBB_MP_2021:
+    title: "IFBB Men’s Physique Rules 2021"
+    url: "https://ifbb.com/wp-content/uploads/2021/04/Mens-Physique-Rules-2021-.pdf"
+    document: "IFBB Men’s Physique Rules 2021"
+  IFBB_CP_2018:
+    title: "IFBB Classic Physique Rules 2018"
+    url: "https://ifbb.com/wp-content/uploads/2018/01/Classic-Physique-Rules-2018.pdf"
+    document: "IFBB Classic Physique Rules 2018"
+  IFBB_PRO_RULES:
+    title: "IFBB Pro League Rules"
+    url: "https://www.ifbbpro.com/rules/"
+    document: "IFBB Pro League Rules page"
+  IFBB_PRO_CP_CRITERIA:
+    title: "IFBB Pro League Classic Physique Judging Criteria"
+    url: "https://www.ifbbproleague.com.au/uploads/b/994ea660-d8aa-11ed-9014-378d597f6cc4/Judging%20Criteria%20-%20Classic%20Physique.pdf"
+    document: "IFBB Pro League Classic Physique Judging Criteria"
+  BAZ_VALLE_2022:
+    title: "Baz-Valle 2022 systematic review (weekly sets by muscle group)"
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+    document: "Baz-Valle 2022 systematic review"
+  KRZYSZTOFIK_2019:
+    title: "Krzysztofik 2019 review (ACSM hypertrophy recommendations)"
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6950543/"
+    document: "Krzysztofik 2019 review"
+  SCHOENFELD_2016:
+    title: "Schoenfeld 2016 frequency meta-analysis"
+    url: "https://paulogentil.com/pdf/Effects%20of%20Resistance%20Training%20Frequency%20on%20Measures%20of%20Muscle%20Hypertrophy%20-%20A%20Systematic%20Review%20and%20Meta-Analysis.pdf"
+    document: "Schoenfeld 2016 frequency meta-analysis"
+
+federations:
+  - id: "PCA"
+    name: "Physical Culture Association"
+    version: "2025"
+    categories:
+      - id: "mens_bodybuilding"
+        name: "Men's Bodybuilding"
+        official_axes_text: "All Bodybuilding classes will be judged on muscularity, symmetry, balance and proportions, conditioning, and presentation."
+        judging_axes: ["muscularity", "symmetry", "balance_proportions", "conditioning", "presentation"]
+        source_of_truth:
+          title: "PCA Criteria 2025"
+          url: "https://www.pcaofficial.com/_files/ugd/609e3c_d2f5b473c01c455d9ae0040b131769f0.pdf"
+          document: "PCA Criteria 2025"
+          quote_hint: "All Bodybuilding classes will be judged on muscularity, symmetry, balance and proportions, conditioning, and presentation."
+        scoring_model:
+          axis_weights: {muscularity: 0.25, symmetry: 0.20, balance_proportions: 0.20, conditioning: 0.25, presentation: 0.10}
+          is_official_weighting: false
+          note: "Weights are internal; axes are official."
+        key_proxies: ["v_taper_ratio", "x_frame_ratio", "leg_to_torso_balance", "symmetry_left_right", "condition_score", "posture_flags"]
+        measurable_proxies:
+          - proxy_id: "v_taper_ratio"
+            description: "Shoulder width / waist width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "x_frame_ratio"
+            description: "Shoulder width / hip width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "leg_to_torso_balance"
+            description: "Thigh volume proxy / upper torso volume proxy."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions", "muscularity"]
+          - proxy_id: "symmetry_left_right"
+            description: "L/R asymmetry from thigh/arm/calf proxies."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["symmetry"]
+          - proxy_id: "condition_score"
+            description: "RGB shadow contrast + silhouette edge sharpness (0-100 proxy)."
+            from: ["rgb", "condition.json"]
+            contributes_to: ["conditioning"]
+          - proxy_id: "posture_flags"
+            description: "Pose alignment deltas (shoulder/hip level, torso rotation, stance width)."
+            from: ["pose_landmarks"]
+            contributes_to: ["presentation"]
+        thresholds: [
+          "v_taper_min", "x_frame_min", "leg_to_torso_min", "leg_to_torso_max",
+          "symmetry_ok", "condition_mid", "posture_shoulder_level_deg", "posture_hip_level_deg"
+        ]
+        feedback_rules:
+          - id: "pca_bb_v_taper"
+            when: "v_taper_ratio is not None and v_taper_ratio < thresholds['v_taper_min']"
+            message: "Improve shoulder-to-waist taper with lat width and lateral delts while keeping the waist tight."
+            action:
+              training: "Emphasize lat width and lateral delts; avoid excessive oblique loading if waist is widening."
+              posing: "Flare lats and set ribs down to maintain a tight waist line."
+              scan_corrections: ["Use a neutral stance", "Keep arms slightly abducted to expose lat width"]
+            training_prescription:
+              muscle_groups: ["lats", "lateral_delts"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Schoenfeld 2016 (frequency)"
+                  url: "https://paulogentil.com/pdf/Effects%20of%20Resistance%20Training%20Frequency%20on%20Measures%20of%20Muscle%20Hypertrophy%20-%20A%20Systematic%20Review%20and%20Meta-Analysis.pdf"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                lats: ["pull-up (various grips)", "lat pulldown", "one-arm cable lat pulldown", "chest-supported row"]
+                lateral_delts: ["cable lateral raise", "machine lateral raise", "lean-away lateral raise"]
+              progression: "Add reps or small load increases while keeping form consistent."
+              deload_notes: "Every 4-8 weeks reduce volume by 30-50% if recovery stalls."
+            citations: ["PCA_2025", "BAZ_VALLE_2022", "SCHOENFELD_2016"]
+          - id: "pca_bb_leg_balance"
+            when: "leg_to_torso_balance is not None and (leg_to_torso_balance < thresholds['leg_to_torso_min'] or leg_to_torso_balance > thresholds['leg_to_torso_max'])"
+            message: "Bring legs into balance with torso by prioritizing quads/hamstrings volume and tempo control."
+            action:
+              training: "Add quad and hamstring volume, emphasizing full ROM and control."
+              posing: "Show quad sweep and hamstring separation in front/back poses."
+              scan_corrections: ["Keep knees locked but not hyperextended", "Square hips to camera"]
+            training_prescription:
+              muscle_groups: ["quads", "hamstrings", "glutes"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Krzysztofik 2019 (ACSM recommendations)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6950543/"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                quads: ["high-bar squat", "hack squat", "leg press", "leg extension"]
+                hamstrings: ["Romanian deadlift", "seated leg curl", "lying leg curl"]
+                glutes: ["hip thrust", "split squat", "cable kickback"]
+              progression: "Progress load or reps weekly while maintaining consistent depth."
+              deload_notes: "Deload every 4-8 weeks with reduced volume if recovery or performance drops."
+            citations: ["PCA_2025", "BAZ_VALLE_2022", "KRZYSZTOFIK_2019"]
+        citations: ["PCA_2025"]
+
+      - id: "classic_bodybuilding"
+        name: "Classic Bodybuilding"
+        official_axes_text: "Classic Bodybuilding will be judged on muscularity, symmetry, balance and proportions, conditioning, and presentation."
+        judging_axes: ["muscularity", "symmetry", "balance_proportions", "conditioning", "presentation"]
+        source_of_truth:
+          title: "PCA Criteria 2025"
+          url: "https://www.pcaofficial.com/_files/ugd/609e3c_d2f5b473c01c455d9ae0040b131769f0.pdf"
+          document: "PCA Criteria 2025"
+          quote_hint: "Classic Bodybuilding will be judged on muscularity, symmetry, balance and proportions, conditioning, and presentation."
+        scoring_model:
+          axis_weights: {muscularity: 0.23, symmetry: 0.20, balance_proportions: 0.22, conditioning: 0.25, presentation: 0.10}
+          is_official_weighting: false
+          note: "Weights are internal; axes are official."
+        key_proxies: ["v_taper_ratio", "x_frame_ratio", "leg_to_torso_balance", "symmetry_left_right", "condition_score", "posture_flags"]
+        measurable_proxies:
+          - proxy_id: "v_taper_ratio"
+            description: "Shoulder width / waist width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "x_frame_ratio"
+            description: "Shoulder width / hip width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "leg_to_torso_balance"
+            description: "Thigh volume proxy / upper torso volume proxy."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions", "muscularity"]
+          - proxy_id: "symmetry_left_right"
+            description: "L/R asymmetry from thigh/arm/calf proxies."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["symmetry"]
+          - proxy_id: "condition_score"
+            description: "RGB shadow contrast + silhouette edge sharpness (0-100 proxy)."
+            from: ["rgb", "condition.json"]
+            contributes_to: ["conditioning"]
+          - proxy_id: "posture_flags"
+            description: "Pose alignment deltas (shoulder/hip level, torso rotation, stance width)."
+            from: ["pose_landmarks"]
+            contributes_to: ["presentation"]
+        thresholds: [
+          "v_taper_min", "x_frame_min", "leg_to_torso_min", "leg_to_torso_max",
+          "symmetry_ok", "condition_mid", "posture_shoulder_level_deg", "posture_hip_level_deg"
+        ]
+        feedback_rules:
+          - id: "pca_cb_v_taper"
+            when: "v_taper_ratio is not None and v_taper_ratio < thresholds['v_taper_min']"
+            message: "Enhance the classic V-taper by bringing up lat width and lateral delts."
+            action:
+              training: "Prioritize lat width and delts while maintaining a tight midsection."
+              posing: "Open the ribcage and spread lats without elevating shoulders."
+              scan_corrections: ["Keep elbows slightly forward", "Avoid torso rotation"]
+            training_prescription:
+              muscle_groups: ["lats", "lateral_delts"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Schoenfeld 2016 (frequency)"
+                  url: "https://paulogentil.com/pdf/Effects%20of%20Resistance%20Training%20Frequency%20on%20Measures%20of%20Muscle%20Hypertrophy%20-%20A%20Systematic%20Review%20and%20Meta-Analysis.pdf"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                lats: ["pull-up (various grips)", "lat pulldown", "one-arm cable lat pulldown", "chest-supported row"]
+                lateral_delts: ["cable lateral raise", "machine lateral raise", "lean-away lateral raise"]
+              progression: "Add reps or small load increases while keeping form consistent."
+              deload_notes: "Every 4-8 weeks reduce volume by 30-50% if recovery stalls."
+            citations: ["PCA_2025", "BAZ_VALLE_2022", "SCHOENFELD_2016"]
+          - id: "pca_cb_leg_balance"
+            when: "leg_to_torso_balance is not None and (leg_to_torso_balance < thresholds['leg_to_torso_min'] or leg_to_torso_balance > thresholds['leg_to_torso_max'])"
+            message: "Bring legs into balance with torso while maintaining classic lines."
+            action:
+              training: "Increase quad and hamstring volume using controlled tempo."
+              posing: "Emphasize quad sweep and hamstring separation in front/back poses."
+              scan_corrections: ["Square hips to camera", "Lock the stance width"]
+            training_prescription:
+              muscle_groups: ["quads", "hamstrings", "glutes"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Krzysztofik 2019 (ACSM recommendations)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6950543/"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                quads: ["high-bar squat", "hack squat", "leg press", "leg extension"]
+                hamstrings: ["Romanian deadlift", "seated leg curl", "lying leg curl"]
+                glutes: ["hip thrust", "split squat", "cable kickback"]
+              progression: "Progress load or reps weekly while maintaining consistent depth."
+              deload_notes: "Deload every 4-8 weeks with reduced volume if recovery or performance drops."
+            citations: ["PCA_2025", "BAZ_VALLE_2022", "KRZYSZTOFIK_2019"]
+        citations: ["PCA_2025"]
+
+      - id: "mens_physique"
+        name: "Men's Physique"
+        official_axes_text: "All Men's Physique classes will be judged on muscularity, symmetry, balance and proportions, conditioning, and stage presence/confidence."
+        judging_axes: ["muscularity", "symmetry", "balance_proportions", "conditioning", "presentation"]
+        source_of_truth:
+          title: "PCA Criteria 2025"
+          url: "https://www.pcaofficial.com/_files/ugd/609e3c_d2f5b473c01c455d9ae0040b131769f0.pdf"
+          document: "PCA Criteria 2025"
+          quote_hint: "All Men’s Physique classes will be judged on muscularity, symmetry, balance and proportions, conditioning, and stage presence and confidence."
+        scoring_model:
+          axis_weights: {muscularity: 0.22, symmetry: 0.20, balance_proportions: 0.22, conditioning: 0.18, presentation: 0.18}
+          is_official_weighting: false
+          note: "Weights are internal; axes are official."
+        key_proxies: ["v_taper_ratio", "x_frame_ratio", "symmetry_left_right", "condition_score", "posture_flags"]
+        measurable_proxies:
+          - proxy_id: "v_taper_ratio"
+            description: "Shoulder width / waist width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "x_frame_ratio"
+            description: "Shoulder width / hip width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "symmetry_left_right"
+            description: "L/R asymmetry from thigh/arm/calf proxies."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["symmetry"]
+          - proxy_id: "condition_score"
+            description: "RGB shadow contrast + silhouette edge sharpness (0-100 proxy)."
+            from: ["rgb", "condition.json"]
+            contributes_to: ["conditioning"]
+          - proxy_id: "posture_flags"
+            description: "Pose alignment deltas (shoulder/hip level, torso rotation, stance width)."
+            from: ["pose_landmarks"]
+            contributes_to: ["presentation"]
+        thresholds: ["v_taper_min", "x_frame_min", "symmetry_ok", "condition_mid", "posture_shoulder_level_deg"]
+        feedback_rules:
+          - id: "pca_mp_v_taper"
+            when: "v_taper_ratio is not None and v_taper_ratio < thresholds['v_taper_min']"
+            message: "Build a stronger V-taper with lats and lateral delts for a wider upper frame."
+            action:
+              training: "Prioritize lats and lateral delts; keep waist tight."
+              posing: "Set shoulders down and flare lats without shrugging."
+              scan_corrections: ["Keep elbows slightly forward", "Avoid twisting the torso"]
+            training_prescription:
+              muscle_groups: ["lats", "lateral_delts"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Schoenfeld 2016 (frequency)"
+                  url: "https://paulogentil.com/pdf/Effects%20of%20Resistance%20Training%20Frequency%20on%20Measures%20of%20Muscle%20Hypertrophy%20-%20A%20Systematic%20Review%20and%20Meta-Analysis.pdf"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                lats: ["pull-up (various grips)", "lat pulldown", "one-arm cable lat pulldown", "chest-supported row"]
+                lateral_delts: ["cable lateral raise", "machine lateral raise", "lean-away lateral raise"]
+              progression: "Add reps or small load increases while keeping form consistent."
+              deload_notes: "Every 4-8 weeks reduce volume by 30-50% if recovery stalls."
+            citations: ["PCA_2025", "BAZ_VALLE_2022", "SCHOENFELD_2016"]
+          - id: "pca_mp_presentation"
+            when: "posture_flags and (posture_flags.get('shoulder_level_delta', 0) > thresholds['posture_shoulder_level_deg'])"
+            message: "Improve stage presence by leveling shoulders and maintaining a confident posture."
+            action:
+              training: "Include upper back and shoulder stability work to keep shoulders level."
+              posing: "Reset posture before each turn; keep chest tall and shoulders level."
+              scan_corrections: ["Re-center stance", "Use a fixed focal point for head alignment"]
+            training_prescription:
+              muscle_groups: ["rear_delts", "upper_back"]
+              evidence:
+                - title: "Krzysztofik 2019 (ACSM recommendations)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6950543/"
+              guidelines:
+                weekly_sets_range: "10-16 sets/week for postural musculature, adjust by recovery"
+                frequency: ">=2x/week with low-to-moderate load"
+              exercise_menu:
+                rear_delts: ["reverse pec deck", "cable rear-delt flye", "chest-supported rear-delt raise"]
+                upper_back: ["chest-supported row", "face pull", "band pull-apart"]
+              progression: "Progress volume slowly to avoid neck/shoulder fatigue."
+              deload_notes: "Reduce volume for 1 week if shoulder tightness or fatigue rises."
+            citations: ["PCA_2025", "KRZYSZTOFIK_2019"]
+        citations: ["PCA_2025"]
+
+  - id: "UKBFF"
+    name: "UKBFF (IFBB-affiliated)"
+    version: "2025"
+    categories:
+      - id: "classic_bodybuilding"
+        name: "Classic Bodybuilding"
+        official_axes_text: "Judging is based on overall male athletic appearance, proportion, symmetry, balanced muscular development, condition of the skin, skin tone, and the ability to present with confidence."
+        judging_axes: ["muscularity", "symmetry", "balance_proportions", "conditioning", "presentation"]
+        source_of_truth:
+          title: "UKBFF Classic Bodybuilder Rules"
+          url: "https://www.ukbff.co.uk/s/rules-Classic-Bodybuilder.pdf"
+          document: "UKBFF Classic Bodybuilder Rules"
+          quote_hint: "Judging will be based on the competitor’s overall male athletic appearance, proportion, symmetry and balanced muscular development, condition of the skin, skin tone and the ability to present with confidence."
+        scoring_model:
+          axis_weights: {muscularity: 0.24, symmetry: 0.20, balance_proportions: 0.21, conditioning: 0.23, presentation: 0.12}
+          is_official_weighting: false
+          note: "Weights are internal; axes are official."
+        key_proxies: ["v_taper_ratio", "x_frame_ratio", "leg_to_torso_balance", "symmetry_left_right", "condition_score", "posture_flags"]
+        measurable_proxies:
+          - proxy_id: "v_taper_ratio"
+            description: "Shoulder width / waist width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "x_frame_ratio"
+            description: "Shoulder width / hip width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "leg_to_torso_balance"
+            description: "Thigh volume proxy / upper torso volume proxy."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions", "muscularity"]
+          - proxy_id: "symmetry_left_right"
+            description: "L/R asymmetry from thigh/arm/calf proxies."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["symmetry"]
+          - proxy_id: "condition_score"
+            description: "RGB shadow contrast + silhouette edge sharpness (0-100 proxy)."
+            from: ["rgb", "condition.json"]
+            contributes_to: ["conditioning"]
+          - proxy_id: "posture_flags"
+            description: "Pose alignment deltas (shoulder/hip level, torso rotation, stance width)."
+            from: ["pose_landmarks"]
+            contributes_to: ["presentation"]
+        thresholds: ["v_taper_min", "x_frame_min", "leg_to_torso_min", "leg_to_torso_max", "symmetry_ok", "condition_mid"]
+        feedback_rules:
+          - id: "ukbff_cb_v_taper"
+            when: "v_taper_ratio is not None and v_taper_ratio < thresholds['v_taper_min']"
+            message: "Bring up lat width and shoulder caps to improve overall proportion."
+            action:
+              training: "Prioritize lats and lateral delts while keeping waist tight."
+              posing: "Open lats and keep the ribcage tall in front/back poses."
+              scan_corrections: ["Keep torso square", "Avoid shoulder shrugging"]
+            training_prescription:
+              muscle_groups: ["lats", "lateral_delts"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Schoenfeld 2016 (frequency)"
+                  url: "https://paulogentil.com/pdf/Effects%20of%20Resistance%20Training%20Frequency%20on%20Measures%20of%20Muscle%20Hypertrophy%20-%20A%20Systematic%20Review%20and%20Meta-Analysis.pdf"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                lats: ["pull-up (various grips)", "lat pulldown", "one-arm cable lat pulldown", "chest-supported row"]
+                lateral_delts: ["cable lateral raise", "machine lateral raise", "lean-away lateral raise"]
+              progression: "Add reps or small load increases while keeping form consistent."
+              deload_notes: "Every 4-8 weeks reduce volume by 30-50% if recovery stalls."
+            citations: ["UKBFF_CLASSIC_BB_RULES", "BAZ_VALLE_2022", "SCHOENFELD_2016"]
+          - id: "ukbff_cb_leg_balance"
+            when: "leg_to_torso_balance is not None and (leg_to_torso_balance < thresholds['leg_to_torso_min'] or leg_to_torso_balance > thresholds['leg_to_torso_max'])"
+            message: "Align lower body development with upper body for balanced symmetry."
+            action:
+              training: "Increase quad/hamstring volume with consistent depth and control."
+              posing: "Show quad sweep and hamstring separation during mandatory poses."
+              scan_corrections: ["Square hips", "Even weight distribution"]
+            training_prescription:
+              muscle_groups: ["quads", "hamstrings", "glutes"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Krzysztofik 2019 (ACSM recommendations)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6950543/"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                quads: ["high-bar squat", "hack squat", "leg press", "leg extension"]
+                hamstrings: ["Romanian deadlift", "seated leg curl", "lying leg curl"]
+                glutes: ["hip thrust", "split squat", "cable kickback"]
+              progression: "Progress load or reps weekly while maintaining consistent depth."
+              deload_notes: "Deload every 4-8 weeks with reduced volume if recovery or performance drops."
+            citations: ["UKBFF_CLASSIC_BB_RULES", "BAZ_VALLE_2022", "KRZYSZTOFIK_2019"]
+        citations: ["UKBFF_CLASSIC_BB_RULES"]
+
+      - id: "classic_physique"
+        name: "Classic Physique"
+        official_axes_text: "Judging emphasizes a harmonious classic physique with proportion, symmetry, muscular size/quality, skin tone, and overall presentation."
+        judging_axes: ["muscularity", "symmetry", "balance_proportions", "conditioning", "presentation"]
+        source_of_truth:
+          title: "IFBB Classic Physique Rules 2018"
+          url: "https://ifbb.com/wp-content/uploads/2018/01/Classic-Physique-Rules-2018.pdf"
+          document: "IFBB Classic Physique Rules 2018"
+          quote_hint: "Judging is based on the level of proportion, symmetry, muscular size and quality ... as well as skin tone."
+        scoring_model:
+          axis_weights: {muscularity: 0.22, symmetry: 0.22, balance_proportions: 0.22, conditioning: 0.20, presentation: 0.14}
+          is_official_weighting: false
+          note: "Weights are internal; axes are official."
+        key_proxies: ["v_taper_ratio", "x_frame_ratio", "leg_to_torso_balance", "symmetry_left_right", "condition_score", "posture_flags"]
+        measurable_proxies:
+          - proxy_id: "v_taper_ratio"
+            description: "Shoulder width / waist width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "x_frame_ratio"
+            description: "Shoulder width / hip width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "leg_to_torso_balance"
+            description: "Thigh volume proxy / upper torso volume proxy."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions", "muscularity"]
+          - proxy_id: "symmetry_left_right"
+            description: "L/R asymmetry from thigh/arm/calf proxies."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["symmetry"]
+          - proxy_id: "condition_score"
+            description: "RGB shadow contrast + silhouette edge sharpness (0-100 proxy)."
+            from: ["rgb", "condition.json"]
+            contributes_to: ["conditioning"]
+          - proxy_id: "posture_flags"
+            description: "Pose alignment deltas (shoulder/hip level, torso rotation, stance width)."
+            from: ["pose_landmarks"]
+            contributes_to: ["presentation"]
+        thresholds: ["v_taper_min", "x_frame_min", "leg_to_torso_min", "leg_to_torso_max", "symmetry_ok", "condition_mid"]
+        feedback_rules:
+          - id: "ukbff_cp_v_taper"
+            when: "v_taper_ratio is not None and v_taper_ratio < thresholds['v_taper_min']"
+            message: "Build a classic V-taper with lats and delts while preserving lines."
+            action:
+              training: "Prioritize lats and lateral delts while keeping the waist tight."
+              posing: "Set shoulders down and flare lats without shrugging."
+              scan_corrections: ["Keep torso square", "Avoid twisting"]
+            training_prescription:
+              muscle_groups: ["lats", "lateral_delts"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Schoenfeld 2016 (frequency)"
+                  url: "https://paulogentil.com/pdf/Effects%20of%20Resistance%20Training%20Frequency%20on%20Measures%20of%20Muscle%20Hypertrophy%20-%20A%20Systematic%20Review%20and%20Meta-Analysis.pdf"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                lats: ["pull-up (various grips)", "lat pulldown", "one-arm cable lat pulldown", "chest-supported row"]
+                lateral_delts: ["cable lateral raise", "machine lateral raise", "lean-away lateral raise"]
+              progression: "Add reps or small load increases while keeping form consistent."
+              deload_notes: "Every 4-8 weeks reduce volume by 30-50% if recovery stalls."
+            citations: ["IFBB_CP_2018", "BAZ_VALLE_2022", "SCHOENFELD_2016"]
+          - id: "ukbff_cp_leg_balance"
+            when: "leg_to_torso_balance is not None and (leg_to_torso_balance < thresholds['leg_to_torso_min'] or leg_to_torso_balance > thresholds['leg_to_torso_max'])"
+            message: "Keep lower body in proportion to the upper body for a balanced classic look."
+            action:
+              training: "Add quad/hamstring volume with controlled tempo."
+              posing: "Emphasize quad sweep and hamstring separation in front/back poses."
+              scan_corrections: ["Square hips", "Even weight distribution"]
+            training_prescription:
+              muscle_groups: ["quads", "hamstrings", "glutes"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Krzysztofik 2019 (ACSM recommendations)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6950543/"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                quads: ["high-bar squat", "hack squat", "leg press", "leg extension"]
+                hamstrings: ["Romanian deadlift", "seated leg curl", "lying leg curl"]
+                glutes: ["hip thrust", "split squat", "cable kickback"]
+              progression: "Progress load or reps weekly while maintaining consistent depth."
+              deload_notes: "Deload every 4-8 weeks with reduced volume if recovery or performance drops."
+            citations: ["IFBB_CP_2018", "BAZ_VALLE_2022", "KRZYSZTOFIK_2019"]
+        citations: ["IFBB_CP_2018", "UKBFF_CLASSIC_PHYS_CATS"]
+
+      - id: "mens_physique"
+        name: "Men's Physique"
+        official_axes_text: "Judging criteria include muscularity and body condition, plus stage presence and personality."
+        judging_axes: ["muscularity", "conditioning", "presentation"]
+        source_of_truth:
+          title: "IFBB Men’s Physique Rules 2021"
+          url: "https://ifbb.com/wp-content/uploads/2021/04/Mens-Physique-Rules-2021-.pdf"
+          document: "IFBB Men’s Physique Rules 2021"
+          quote_hint: "The criteria includes muscularity and body condition, as well as stage presence and personality."
+        scoring_model:
+          axis_weights: {muscularity: 0.40, conditioning: 0.30, presentation: 0.30}
+          is_official_weighting: false
+          note: "Weights are internal; axes are official."
+        key_proxies: ["v_taper_ratio", "condition_score", "posture_flags"]
+        measurable_proxies:
+          - proxy_id: "v_taper_ratio"
+            description: "Shoulder width / waist width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["muscularity"]
+          - proxy_id: "condition_score"
+            description: "RGB shadow contrast + silhouette edge sharpness (0-100 proxy)."
+            from: ["rgb", "condition.json"]
+            contributes_to: ["conditioning"]
+          - proxy_id: "posture_flags"
+            description: "Pose alignment deltas (shoulder/hip level, torso rotation, stance width)."
+            from: ["pose_landmarks"]
+            contributes_to: ["presentation"]
+        thresholds: ["v_taper_min", "condition_mid", "posture_shoulder_level_deg"]
+        feedback_rules:
+          - id: "ukbff_mp_v_taper"
+            when: "v_taper_ratio is not None and v_taper_ratio < thresholds['v_taper_min']"
+            message: "Improve upper body width (lats/delts) for a stronger physique silhouette."
+            action:
+              training: "Prioritize lats and lateral delts while keeping waist tight."
+              posing: "Set shoulders down and flare lats in front/back stances."
+              scan_corrections: ["Keep torso square", "Avoid shrugging"]
+            training_prescription:
+              muscle_groups: ["lats", "lateral_delts"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Schoenfeld 2016 (frequency)"
+                  url: "https://paulogentil.com/pdf/Effects%20of%20Resistance%20Training%20Frequency%20on%20Measures%20of%20Muscle%20Hypertrophy%20-%20A%20Systematic%20Review%20and%20Meta-Analysis.pdf"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                lats: ["pull-up (various grips)", "lat pulldown", "one-arm cable lat pulldown", "chest-supported row"]
+                lateral_delts: ["cable lateral raise", "machine lateral raise", "lean-away lateral raise"]
+              progression: "Add reps or small load increases while keeping form consistent."
+              deload_notes: "Every 4-8 weeks reduce volume by 30-50% if recovery stalls."
+            citations: ["IFBB_MP_2021", "BAZ_VALLE_2022", "SCHOENFELD_2016"]
+          - id: "ukbff_mp_presentation"
+            when: "posture_flags and (posture_flags.get('shoulder_level_delta', 0) > thresholds['posture_shoulder_level_deg'])"
+            message: "Improve stage presence by leveling shoulders and maintaining posture."
+            action:
+              training: "Add upper back and shoulder stability work."
+              posing: "Reset posture before each transition and keep chest tall."
+              scan_corrections: ["Use a fixed focal point", "Keep stance width consistent"]
+            training_prescription:
+              muscle_groups: ["rear_delts", "upper_back"]
+              evidence:
+                - title: "Krzysztofik 2019 (ACSM recommendations)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6950543/"
+              guidelines:
+                weekly_sets_range: "10-16 sets/week for postural musculature, adjust by recovery"
+                frequency: ">=2x/week with low-to-moderate load"
+              exercise_menu:
+                rear_delts: ["reverse pec deck", "cable rear-delt flye", "chest-supported rear-delt raise"]
+                upper_back: ["chest-supported row", "face pull", "band pull-apart"]
+              progression: "Progress volume slowly to avoid neck/shoulder fatigue."
+              deload_notes: "Reduce volume for 1 week if shoulder tightness or fatigue rises."
+            citations: ["IFBB_MP_2021", "KRZYSZTOFIK_2019"]
+        citations: ["IFBB_MP_2021", "UKBFF_RULES_PAGE"]
+
+  - id: "IFBB_PRO"
+    name: "IFBB Pro League"
+    version: "2025"
+    categories:
+      - id: "classic_physique"
+        name: "Classic Physique"
+        official_axes_text: "Judging emphasizes balance, symmetry, shape/lines, muscularity, and overall presentation."
+        judging_axes: ["muscularity", "symmetry", "balance_proportions", "conditioning", "presentation"]
+        source_of_truth:
+          title: "IFBB Pro League Classic Physique Judging Criteria"
+          url: "https://www.ifbbproleague.com.au/uploads/b/994ea660-d8aa-11ed-9014-378d597f6cc4/Judging%20Criteria%20-%20Classic%20Physique.pdf"
+          document: "IFBB Pro League Classic Physique Judging Criteria"
+          quote_hint: "Overall balance, symmetry and shape should be considered; presentation is of paramount importance."
+        scoring_model:
+          axis_weights: {muscularity: 0.22, symmetry: 0.22, balance_proportions: 0.22, conditioning: 0.18, presentation: 0.16}
+          is_official_weighting: false
+          note: "Weights are internal; axes are official."
+        key_proxies: ["v_taper_ratio", "x_frame_ratio", "leg_to_torso_balance", "symmetry_left_right", "condition_score", "posture_flags"]
+        measurable_proxies:
+          - proxy_id: "v_taper_ratio"
+            description: "Shoulder width / waist width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "x_frame_ratio"
+            description: "Shoulder width / hip width."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions"]
+          - proxy_id: "leg_to_torso_balance"
+            description: "Thigh volume proxy / upper torso volume proxy."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["balance_proportions", "muscularity"]
+          - proxy_id: "symmetry_left_right"
+            description: "L/R asymmetry from thigh/arm/calf proxies."
+            from: ["pcd_geometry", "metrics.json"]
+            contributes_to: ["symmetry"]
+          - proxy_id: "condition_score"
+            description: "RGB shadow contrast + silhouette edge sharpness (0-100 proxy)."
+            from: ["rgb", "condition.json"]
+            contributes_to: ["conditioning"]
+          - proxy_id: "posture_flags"
+            description: "Pose alignment deltas (shoulder/hip level, torso rotation, stance width)."
+            from: ["pose_landmarks"]
+            contributes_to: ["presentation"]
+        thresholds: ["v_taper_min", "x_frame_min", "leg_to_torso_min", "leg_to_torso_max", "symmetry_ok", "condition_mid"]
+        feedback_rules:
+          - id: "ifbb_cp_v_taper"
+            when: "v_taper_ratio is not None and v_taper_ratio < thresholds['v_taper_min']"
+            message: "Improve classic lines by widening the upper frame (lats/delts)."
+            action:
+              training: "Prioritize lats and lateral delts while maintaining a tight waist."
+              posing: "Set shoulders down and flare lats without shrugging."
+              scan_corrections: ["Keep torso square", "Avoid twisting"]
+            training_prescription:
+              muscle_groups: ["lats", "lateral_delts"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Schoenfeld 2016 (frequency)"
+                  url: "https://paulogentil.com/pdf/Effects%20of%20Resistance%20Training%20Frequency%20on%20Measures%20of%20Muscle%20Hypertrophy%20-%20A%20Systematic%20Review%20and%20Meta-Analysis.pdf"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                lats: ["pull-up (various grips)", "lat pulldown", "one-arm cable lat pulldown", "chest-supported row"]
+                lateral_delts: ["cable lateral raise", "machine lateral raise", "lean-away lateral raise"]
+              progression: "Add reps or small load increases while keeping form consistent."
+              deload_notes: "Every 4-8 weeks reduce volume by 30-50% if recovery stalls."
+            citations: ["IFBB_PRO_CP_CRITERIA", "BAZ_VALLE_2022", "SCHOENFELD_2016"]
+          - id: "ifbb_cp_leg_balance"
+            when: "leg_to_torso_balance is not None and (leg_to_torso_balance < thresholds['leg_to_torso_min'] or leg_to_torso_balance > thresholds['leg_to_torso_max'])"
+            message: "Balance lower body with upper body to maintain classic proportion."
+            action:
+              training: "Increase quad/hamstring volume with controlled tempo."
+              posing: "Emphasize quad sweep and hamstring separation in mandatory poses."
+              scan_corrections: ["Square hips", "Even weight distribution"]
+            training_prescription:
+              muscle_groups: ["quads", "hamstrings", "glutes"]
+              evidence:
+                - title: "Baz-Valle 2022 (weekly sets)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8884877/"
+                - title: "Krzysztofik 2019 (ACSM recommendations)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6950543/"
+              guidelines:
+                weekly_sets_range: "12-20 sets/week per target muscle (advanced), adjust by recovery"
+                frequency: ">=2x/week per muscle if volume allows"
+              exercise_menu:
+                quads: ["high-bar squat", "hack squat", "leg press", "leg extension"]
+                hamstrings: ["Romanian deadlift", "seated leg curl", "lying leg curl"]
+                glutes: ["hip thrust", "split squat", "cable kickback"]
+              progression: "Progress load or reps weekly while maintaining consistent depth."
+              deload_notes: "Deload every 4-8 weeks with reduced volume if recovery or performance drops."
+            citations: ["IFBB_PRO_CP_CRITERIA", "BAZ_VALLE_2022", "KRZYSZTOFIK_2019"]
+        citations: ["IFBB_PRO_CP_CRITERIA", "IFBB_PRO_RULES"]
+
+      - id: "bodybuilding"
+        name: "Bodybuilding"
+        official_axes_text: "Rules list mandatory poses for Men’s Open Bodybuilding for judging procedures."
+        judging_axes: ["presentation"]
+        source_of_truth:
+          title: "IFBB Pro League Rules"
+          url: "https://www.ifbbpro.com/rules/"
+          document: "IFBB Pro League Rules page"
+          quote_hint: "Men’s Open Bodybuilding mandatory poses are listed for judging procedures."
+        scoring_model:
+          axis_weights: {presentation: 1.0}
+          is_official_weighting: false
+          note: "Weights are internal; official rules list mandatory poses but do not specify axis weights."
+        key_proxies: ["posture_flags", "pose_compliance"]
+        measurable_proxies:
+          - proxy_id: "posture_flags"
+            description: "Pose alignment deltas (shoulder/hip level, torso rotation, stance width)."
+            from: ["pose_landmarks"]
+            contributes_to: ["presentation"]
+          - proxy_id: "pose_compliance"
+            description: "Manual or model-based pose compliance score (0-1)."
+            from: ["pose_classifier", "session_summary.json"]
+            contributes_to: ["presentation"]
+        thresholds: ["posture_shoulder_level_deg", "posture_hip_level_deg", "posture_torso_rotation_deg", "stance_width_ratio_min", "stance_width_ratio_max"]
+        feedback_rules:
+          - id: "ifbb_bb_presentation"
+            when: "posture_flags and (posture_flags.get('shoulder_level_delta', 0) > thresholds['posture_shoulder_level_deg'])"
+            message: "Improve mandatory pose execution by leveling shoulders and squaring the stance."
+            action:
+              training: "Add upper back and shoulder stability work to hold poses."
+              posing: "Reset posture between poses; keep shoulders level and hips square."
+              scan_corrections: ["Use fixed stance markers", "Re-scan with locked pose"]
+            training_prescription:
+              muscle_groups: ["rear_delts", "upper_back"]
+              evidence:
+                - title: "Krzysztofik 2019 (ACSM recommendations)"
+                  url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6950543/"
+              guidelines:
+                weekly_sets_range: "10-16 sets/week for postural musculature, adjust by recovery"
+                frequency: ">=2x/week with low-to-moderate load"
+              exercise_menu:
+                rear_delts: ["reverse pec deck", "cable rear-delt flye", "chest-supported rear-delt raise"]
+                upper_back: ["chest-supported row", "face pull", "band pull-apart"]
+              progression: "Progress volume slowly to avoid neck/shoulder fatigue."
+              deload_notes: "Reduce volume for 1 week if shoulder tightness or fatigue rises."
+            citations: ["IFBB_PRO_RULES", "KRZYSZTOFIK_2019"]
+        citations: ["IFBB_PRO_RULES"]

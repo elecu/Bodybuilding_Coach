@@ -1,0 +1,228 @@
+federation_id: bnbf
+federation_name: BNBF UK
+season_year: null
+sources:
+  source_urls:
+    - https://bnbf.co.uk/competition/judging-criteria
+  source_files:
+    - docs/federations_summary.tex
+    - docs/federations_summary.pdf
+    - References/UK_Bodybuilding_Federations_Criteria_Compiled.tex
+divisions:
+  - division_id: mens_womens_bodybuilding
+    division_name: "Men's and Women's Bodybuilding"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+        - Female
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: bnbf_bb_round_1
+        round_name: "Round 1 - Symmetry"
+        judged_on: "Quarter turns (front/right/back/left)."
+        routine_time_limit_seconds: null
+      - round_id: bnbf_bb_round_2
+        round_name: "Round 2 - Muscularity"
+        judged_on: "8 mandatory poses."
+        routine_time_limit_seconds: null
+      - round_id: bnbf_bb_round_3
+        round_name: "Round 3 - Evening Performance"
+        judged_on: "Posing routine."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front Double Biceps
+      - Front Lat Spread
+      - Side Chest (any side)
+      - Side Triceps (any side)
+      - Rear Double Biceps
+      - Rear Lat Spread
+      - Abdominals and Thigh
+      - Most Muscular (any style)
+    attire: "Men: posing trunks. Women: bodybuilding suit."
+    notes_keywords: "Scoring per BNBF: in comparisons, judges rank competitors 1-6 (7 used for any place beyond 6). Overall score is sum of judges' rankings; lowest total wins. Routine timing: 60 s amateurs; 90 s professionals."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://bnbf.co.uk/competition/judging-criteria
+      source_files:
+        - docs/federations_summary.tex
+
+  - division_id: athletic_men
+    division_name: "Athletic (Men)"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: bnbf_ath_m_round_1
+        round_name: "Round 1 - Muscularity and Condition"
+        judged_on: "Compulsory poses."
+        routine_time_limit_seconds: null
+      - round_id: bnbf_ath_m_round_2
+        round_name: "Round 2 - Performance"
+        judged_on: "Posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Biceps
+      - Side Chest
+      - Rear Double Biceps
+      - Abdominal (hands behind head)
+      - Most Muscular (any style)
+    attire: "Board shorts (men)."
+    notes_keywords: "Not excessively muscular or lean; focus on athletic, fit appearance."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://bnbf.co.uk/competition/judging-criteria
+      source_files:
+        - docs/federations_summary.tex
+
+  - division_id: athletic_women
+    division_name: "Athletic (Women)"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: bnbf_ath_w_round_1
+        round_name: "Round 1 - Symmetry"
+        judged_on: "Quarter turns."
+        routine_time_limit_seconds: null
+      - round_id: bnbf_ath_w_round_2
+        round_name: "Round 2 - Athletic Muscularity"
+        judged_on: "5 compulsory poses."
+        routine_time_limit_seconds: null
+      - round_id: bnbf_ath_w_round_3
+        round_name: "Round 3 - Performance"
+        judged_on: "Posing routine."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Biceps
+      - Side Triceps
+      - Rear Double Biceps
+      - Abdominal and Thigh
+      - Most Muscular
+    attire: "Figure suit."
+    notes_keywords: "Not excessively muscular or lean; focus on athletic, fit appearance."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://bnbf.co.uk/competition/judging-criteria
+      source_files:
+        - docs/federations_summary.tex
+
+  - division_id: figure_women
+    division_name: "Figure (Women)"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: bnbf_figure_round_1
+        round_name: "Round 1 - Symmetry"
+        judged_on: "Quarter turns."
+        routine_time_limit_seconds: null
+      - round_id: bnbf_figure_round_2
+        round_name: "Round 2 - Shape and Tone"
+        judged_on: "Competitor performs 3 poses (1 front, 1 side, 1 rear); competitor chooses poses."
+        routine_time_limit_seconds: null
+      - round_id: bnbf_figure_round_3
+        round_name: "Round 3 - T-walk"
+        judged_on: "Stage walk/presentation (competitor's own style)."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - "Quarter turns: Front"
+      - "Quarter turns: Right Side"
+      - "Quarter turns: Back"
+      - "Quarter turns: Left Side"
+      - "Round 2: one pose facing front (athlete chooses)"
+      - "Round 2: one pose facing side (athlete chooses)"
+      - "Round 2: one pose facing rear (athlete chooses)"
+    attire: "Figure suit and heels; jewellery optional; hairstyle and makeup optional."
+    notes_keywords: "No fixed mandatory list for Round 2 beyond front/side/rear athlete-chosen poses."
+    needs_verification: true
+    sources:
+      source_urls:
+        - https://bnbf.co.uk/competition/judging-criteria
+      source_files:
+        - docs/federations_summary.tex
+
+  - division_id: classic_bodybuilding_men
+    division_name: "Classic Bodybuilding (Men)"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: bnbf_classic_round_1
+        round_name: "Round 1 - Symmetry"
+        judged_on: "Quarter turns."
+        routine_time_limit_seconds: null
+      - round_id: bnbf_classic_round_2
+        round_name: "Round 2 - Muscularity"
+        judged_on: "6 compulsory poses."
+        routine_time_limit_seconds: null
+      - round_id: bnbf_classic_round_3
+        round_name: "Round 3 - Evening Performance"
+        judged_on: "Posing routine."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front Double Biceps
+      - Front Lat Spread
+      - Side Chest
+      - Rear Bicep
+      - Abs and Thighs
+      - Classic pose of choice
+    attire: "Posing trunks."
+    notes_keywords: "Routine timing: 60 s amateurs; 90 s professionals."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://bnbf.co.uk/competition/judging-criteria
+      source_files:
+        - docs/federations_summary.tex

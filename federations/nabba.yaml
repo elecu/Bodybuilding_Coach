@@ -1,0 +1,225 @@
+federation_id: nabba
+federation_name: NABBA UK
+season_year: null
+sources:
+  source_urls:
+    - https://nabbaofficial.com/
+  source_files:
+    - docs/federations_summary.tex
+    - docs/federations_summary.pdf
+    - References/UK_Bodybuilding_Federations_Criteria_Compiled.tex
+divisions:
+  - division_id: mens_bodybuilding_classes
+    division_name: "Men's Bodybuilding classes (Teens / Junior / First Timers / Novice / Masters / Height Classes, etc.)"
+    classes:
+      - class_id: teens
+        class_name: "Teens"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Class listed in division title text; detailed limits not provided in summary."
+        needs_verification: true
+      - class_id: junior
+        class_name: "Junior"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Class listed in division title text; detailed limits not provided in summary."
+        needs_verification: true
+      - class_id: first_timers
+        class_name: "First Timers"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Class listed in division title text; detailed limits not provided in summary."
+        needs_verification: true
+      - class_id: novice
+        class_name: "Novice"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Novices must not have previously been placed top 3 in a NABBA Area novice contest, or have won any open contest."
+        needs_verification: false
+      - class_id: masters
+        class_name: "Masters"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Class listed in division title text; detailed limits not provided in summary."
+        needs_verification: true
+      - class_id: height_classes
+        class_name: "Height Classes"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Class listed in division title text; detailed limits not provided in summary."
+        needs_verification: true
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: "Novices: must not have previously been placed top 3 in a NABBA Area novice contest, or have won any open contest."
+      first_timer_only: false
+      height_classes:
+        - class_id: height_classes
+          class_name: "Height Classes"
+          min_height_cm: null
+          max_height_cm: null
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Detailed height boundaries not provided in summary."
+          needs_verification: true
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: nabba_bb_round_1
+        round_name: "Round 1 - Quarter Turns"
+        judged_on: "Front stance then Quarter Turn To The Right until facing front again; assessed for balance/symmetry/proportion and mass/condition."
+        routine_time_limit_seconds: null
+      - round_id: nabba_bb_round_2
+        round_name: "Round 2 - Routine"
+        judged_on: "Individual routine."
+        routine_time_limit_seconds: null
+      - round_id: nabba_bb_round_3
+        round_name: "Round 3 - Comparisons"
+        judged_on: "Call-outs in groups of 4-6; mandatory pose requests."
+        routine_time_limit_seconds: null
+      - round_id: nabba_bb_pose_down
+        round_name: "Optional pose-down"
+        judged_on: "Free posing pose-down."
+        routine_time_limit_seconds: 30
+    mandatory_poses:
+      - Abs and Thighs
+      - Lat Spread
+      - Front Double Bicep
+      - Side Chest (any side)
+      - Side Tricep (any side)
+      - Rear Lat Spread (showing hamstring and calf)
+      - Rear Double Bicep
+      - Most Muscular
+    attire: "Trunks required; shorts/underwear not permitted."
+    notes_keywords: "Routine: minimum 45 seconds; Area shows may allow up to 60 seconds; Britain Finals/England/Universe designated 45 seconds."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://nabbaofficial.com/
+      source_files:
+        - docs/federations_summary.tex
+
+  - division_id: mens_physique_open_over45
+    division_name: "Men's Physique (Open / Over 45s)"
+    classes:
+      - class_id: open
+        class_name: "Open"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: null
+        needs_verification: false
+      - class_id: over_45s
+        class_name: "Over 45s"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Class listed in source title. Exact age rule details not provided in summary text."
+        needs_verification: true
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: nabba_mp_round_1
+        round_name: "Round 1 - Quarter turns"
+        judged_on: "Fixed but not flexed stance."
+        routine_time_limit_seconds: null
+      - round_id: nabba_mp_round_2
+        round_name: "Round 2 - I-Walk"
+        judged_on: "Individual walk with rotations front/side/back/side/front; walk back; DJ music."
+        routine_time_limit_seconds: null
+      - round_id: nabba_mp_round_3
+        round_name: "Round 3 - Comparisons"
+        judged_on: "Call-outs in groups; requested poses."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front Biceps
+      - Left side oblique
+      - Back Biceps
+      - Right side Oblique
+      - Front favourite pose
+    attire: "Shorts: mid-thigh max; approximately 2 cm below belly button; not skin-tight; no advertising; one colour preferred."
+    notes_keywords: "Possible 30 seconds free posing in pose-down."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://nabbaofficial.com/
+      source_files:
+        - docs/federations_summary.tex
+
+  - division_id: classic
+    division_name: "Classic"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: nabba_classic_round_1
+        round_name: "Round 1 - Quarter Turns"
+        judged_on: "Front stance then Quarter Turn To The Right until facing front again; assessed for balance/symmetry/proportion and mass/condition."
+        routine_time_limit_seconds: null
+      - round_id: nabba_classic_round_2
+        round_name: "Round 2 - Routine"
+        judged_on: "Individual routine."
+        routine_time_limit_seconds: null
+      - round_id: nabba_classic_round_3
+        round_name: "Round 3 - Comparisons"
+        judged_on: "Call-outs in groups of 4-6; mandatory pose requests."
+        routine_time_limit_seconds: null
+      - round_id: nabba_classic_pose_down
+        round_name: "Optional pose-down"
+        judged_on: "Free posing pose-down."
+        routine_time_limit_seconds: 30
+    mandatory_poses:
+      - Abs and Thighs
+      - Lat Spread
+      - Front Double Bicep
+      - Side Chest (any side)
+      - Side Tricep (any side)
+      - Rear Lat Spread (showing hamstring and calf)
+      - Rear Double Bicep
+      - Most Muscular
+    attire: "Trunks."
+    notes_keywords: "Balanced X-frame, tapered waist, full muscle bellies, clean separation, vacuum poses sought after. Routine: minimum 45 seconds; Area shows may allow up to 60 seconds; Britain Finals/England/Universe designated 45 seconds."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://nabbaofficial.com/
+      source_files:
+        - docs/federations_summary.tex

@@ -1,0 +1,41 @@
+id: ukbff
+name: UKBFF (IFBB)
+categories:
+  mens_physique:
+    name: Men's Physique
+    poses: [mp_front, mp_left, mp_back, mp_right, mp_front]
+  bodybuilding:
+    name: Bodybuilding
+    poses:
+      - bb_front_double_biceps
+      - bb_front_lat_spread
+      - bb_side_chest
+      - bb_back_double_biceps
+      - bb_back_lat_spread
+      - bb_side_triceps
+      - bb_abs_and_thighs
+  classic_bodybuilding:
+    name: Classic Bodybuilding
+    poses:
+      - bb_front_double_biceps
+      - bb_front_lat_spread
+      - bb_side_chest
+      - bb_back_double_biceps
+      - bb_back_lat_spread
+      - bb_side_triceps
+      - bb_abs_and_thighs
+region_weights:
+  upper_torso: 1.2
+  waist: 1.0
+  hips: 0.9
+  thighs: 1.1
+  calves: 0.8
+region_targets:
+  upper_torso: 0.27
+  waist: 0.20
+  hips: 0.22
+  thighs: 0.24
+  calves: 0.16
+ratio_targets:
+  shoulder_to_waist: 1.35
+  chest_to_waist: 1.25

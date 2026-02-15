@@ -1,0 +1,340 @@
+federation_id: wnbf_uk
+federation_name: WNBF UK
+season_year: null
+sources:
+  source_urls:
+    - https://wnbfuk.com/
+  source_files:
+    - docs/federations_summary.tex
+    - docs/federations_summary.pdf
+    - References/wnbf/BODYBUILDING-WNBF-UK-CRITERIA-2025.pdf
+    - References/wnbf/MENS-PHYSIQUE-WNBF-UK-CRITERIA-2025.pdf
+    - References/wnbf/BIKINI-DIVISION-WNBF-UK-JUDGING-RULES-2025.pdf
+    - References/wnbf/CLASSIC-PHYSIQUE-WNBF-UK-CRITERIA.pdf
+    - References/wnbf/FIT-BODY-WNBF-UK-DIVISION-JUDGING-RULES-2023.pdf
+    - References/wnbf/FIGURE-MASTER-FIGURE-WNBF-UK-JUDGING-CRITERIA-2023.pdf
+    - References/wnbf/WOMENS-BODYBUILDING-WNBF-UK-CRITERIA-2023.pdf
+    - References/UK_Bodybuilding_Federations_Criteria_Compiled.tex
+divisions:
+  - division_id: mens_bodybuilding_2025
+    division_name: "Men's Bodybuilding (2025)"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: wnbf_bb_round_1
+        round_name: "Round 1 - Symmetry"
+        judged_on: "Quarter turns (Front, Right Side, Back, Left Side)."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_bb_round_2
+        round_name: "Round 2 - Muscularity"
+        judged_on: "Mandatory poses."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_bb_round_3
+        round_name: "Round 3 - Free posing"
+        judged_on: "Free posing routine to competitor's music."
+        routine_time_limit_seconds: 60
+    mandatory_poses:
+      - Front Double Biceps pose
+      - Front Lat Spread pose
+      - Side Chest pose (either side)
+      - Side Triceps pose (either side)
+      - Rear Double Biceps pose
+      - Rear Lat Spread pose
+      - Abs and Thigh pose
+      - Most Muscular pose
+    attire: "Men's posing trunks."
+    notes_keywords: "Most Muscular pose: any of the three styles; hands cannot be clasped. Props/costumes permitted but not required."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://wnbfuk.com/
+      source_files:
+        - docs/federations_summary.tex
+        - References/wnbf/BODYBUILDING-WNBF-UK-CRITERIA-2025.pdf
+
+  - division_id: womens_bodybuilding_2023
+    division_name: "Women's Bodybuilding (2023)"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: wnbf_wbb_round_1
+        round_name: "Round 1 - Symmetry"
+        judged_on: "Quarter turns (Front, Right Side, Back, Left Side)."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_wbb_round_2
+        round_name: "Round 2 - Muscularity"
+        judged_on: "Mandatory poses."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_wbb_round_3
+        round_name: "Round 3 - Free posing"
+        judged_on: "Individual routine (timing per WNBF UK document)."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front Double Biceps Pose
+      - Front Lat Spread Pose
+      - Side Chest Pose
+      - Side Triceps Pose (both hands behind the back)
+      - Rear Double Biceps Pose (showing one calf)
+      - Rear Lat Spread Pose (showing one calf)
+      - Abs and Thigh Pose
+      - Muscular Pose of choice called by the head judge (optional)
+    attire: "Women's bodybuilding suit."
+    notes_keywords: "Overall muscular development, conditioning, symmetry/presentation."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://wnbfuk.com/
+      source_files:
+        - docs/federations_summary.tex
+        - References/wnbf/WOMENS-BODYBUILDING-WNBF-UK-CRITERIA-2023.pdf
+
+  - division_id: classic_physique
+    division_name: "Classic Physique"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: wnbf_classic_round_1
+        round_name: "Round #1 - Symmetry"
+        judged_on: "Contributes to 50% of the overall Classic Physique score. Consists of the same four mandatory symmetry round relaxed poses as the bodybuilding division. Symmetry encompasses overall balance and harmony of the physique on all sides and in all muscle groups."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_classic_round_2
+        round_name: "Round #2 - Muscularity/Conditioning"
+        judged_on: "Contributes to 50% of the overall Classic Physique score. Consists of the Five mandatory Classic Physique muscularity round poses. Athletes are judged on size, separation, and leanness of musculature. Individual presentation, smooth quarter turns, graceful classic posing, and ability to hold poses without visible effort positively impact scoring."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_classic_round_3
+        round_name: "Round 3 - Free Posing"
+        judged_on: "All competitors will perform a 60 -90 second ONLY posing routine to a piece of music of their choice following their comparison rounds. Props and costumes are permitted but not required."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front Relaxed
+      - Quarter to the right showing the left side of the body
+      - Quarter to the right showing the rear
+      - Quarter turn to the right showing the right side of the body
+      - Quarter turn to face the front
+      - Asymmetrical Front Double Biceps
+      - Side Chest Fists Touching Hip
+      - Classic Side Triceps
+      - Rear Double Biceps One Hand Open
+      - Abdominals and Thighs
+      - Favorite Classic Pose 1 (non-most muscular pose)
+      - Favorite Classic Pose 2 (non-most muscular pose)
+    attire: "Men's Classic Physique Posing Trunks. Black only - matte or lycra with no letters or designs. Up to 4.5 inch side length trunks. Sculpted or full back - material shall not reach the upper hamstring. Bodybuilding trunks are not allowed."
+    notes_keywords: "Athletes are judged in 2 rounds (symmetry and muscularity/presentation rounds); both contribute to the Classic Physique score. Note: NO Bodybuilding, most muscular, or Men's Physique poses are permitted in Classic Physique. Favorite poses should be chosen by the athlete to accentuate symmetry and musculature. Options may include: Rear twisted back double bicep, Side mantis, Rear archer, Victory pose, Teacup pose, Vacuum pose. Posing music must be submitted in MP3 format and must not contain profanity, sexually explicit, violent, or racially offensive terminology."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://wnbfuk.com/
+      source_files:
+        - References/wnbf/CLASSIC-PHYSIQUE-WNBF-UK-CRITERIA.pdf
+
+  - division_id: fit_body_2023
+    division_name: "Fit Body (2023)"
+    classes: []
+    eligibility:
+      sex_categories: []
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: wnbf_fit_body_round_1
+        round_name: "Round 1 - Symmetry"
+        judged_on: "Quarter turns (Front, Right Side, Back, Left Side)."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_fit_body_round_2
+        round_name: "Round 2 - Muscle Tone"
+        judged_on: "5 mandatory poses (listed below in source), but explicit list not present in summary text layer."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_fit_body_round_3
+        round_name: "Round 3 - Stage walk / presentation"
+        judged_on: "Stage walk / presentation."
+        routine_time_limit_seconds: null
+    mandatory_poses: null
+    attire: "Division-appropriate suit and heels."
+    notes_keywords: "Balance between athletic muscularity and stage presentation."
+    needs_verification: true
+    sources:
+      source_urls:
+        - https://wnbfuk.com/
+      source_files:
+        - docs/federations_summary.tex
+        - References/wnbf/FIT-BODY-WNBF-UK-DIVISION-JUDGING-RULES-2023.pdf
+
+  - division_id: mens_physique_2025
+    division_name: "Men's Physique (2025)"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: wnbf_mp_round_1
+        round_name: "Round #1 - Fitness & Balance"
+        judged_on: "Good strong V taper, capped shoulders, defined abs, tight waist, split to the calve. Good level of conditioning, displaying a lean and muscular physique."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_mp_round_2
+        round_name: "Round #2 - Physical Appearance/ Stage Walk"
+        judged_on: "The overall appearance of the athlete. Stage presentation, short choice, tanning, hair, etc. is encompassed in this round. Stage walk is 30 seconds from entry to exit."
+        routine_time_limit_seconds: 30
+    mandatory_poses:
+      - Front Pose
+      - Quarter turn to the right: Side Pose (left side showing)
+      - Quarter turn to the right: Back Pose
+      - Quarter turn to the right: Side Pose (right side showing)
+      - Quarter turn to the right: Front Pose
+      - Stage Walk 1st Location: Rear Centre stage - Front relaxed pose
+      - Stage Walk 2nd Location: Front Centre stage - All 4 quarter turns in sequence, finishing with the front pose
+    rule_images:
+      - image_path: docs/rules_images/wnbf_uk/mens_physique_2025/shorts_example.png
+        caption: "A good example is displayed below."
+        source_file: References/wnbf/MENS-PHYSIQUE-WNBF-UK-CRITERIA-2025.pdf
+        page_number: 1
+      - image_path: docs/rules_images/wnbf_uk/mens_physique_2025/front_pose_example.png
+        caption: "Front Pose"
+        source_file: References/wnbf/MENS-PHYSIQUE-WNBF-UK-CRITERIA-2025.pdf
+        page_number: 2
+      - image_path: docs/rules_images/wnbf_uk/mens_physique_2025/side_pose_examples.png
+        caption: "Side Poses"
+        source_file: References/wnbf/MENS-PHYSIQUE-WNBF-UK-CRITERIA-2025.pdf
+        page_number: 3
+      - image_path: docs/rules_images/wnbf_uk/mens_physique_2025/back_pose_example.png
+        caption: "Back Pose"
+        source_file: References/wnbf/MENS-PHYSIQUE-WNBF-UK-CRITERIA-2025.pdf
+        page_number: 3
+      - image_path: docs/rules_images/wnbf_uk/mens_physique_2025/stage_walk_diagram.png
+        caption: "See stage diagram below."
+        source_file: References/wnbf/MENS-PHYSIQUE-WNBF-UK-CRITERIA-2025.pdf
+        page_number: 4
+    attire: "FOOTWEAR: This class is performed in bare feet. SHORTS: No posing trunks/briefs allowed. The shorts must be board short style shorts, and be tight-ish fitting around the thighs. Shorts must cover all of the thighs, and at most stop at (but not below) the knee. The waistband should sit no lower than 3 inches below the navel."
+    notes_keywords: "Execution is in four quarter turns to the right as guided by the head judge. Hips MUST face the judges in front pose. One hand on hip on all quarter turns. Over-flexed posing and clenching of fists is not preferred. Quarter turn transitions are at athlete discretion to show artistry and fluidity; over exaggerated and distracting movements are not permitted. Poses should be held for no longer than 3 seconds and the entire walk completed in 30 seconds or less from entering to leaving the stage."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://wnbfuk.com/
+      source_files:
+        - References/wnbf/MENS-PHYSIQUE-WNBF-UK-CRITERIA-2025.pdf
+
+  - division_id: bikini_2025
+    division_name: "Bikini (2025)"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: wnbf_bikini_round_1
+        round_name: "Round 1 - Stage walk"
+        judged_on: "Mandatory quarter-turn poses performed in sequence."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front pose (bikini front stance)
+      - Quarter turn to the right (side pose)
+      - Quarter turn to the right (back pose)
+      - Quarter turn to the right (other side pose)
+      - Quarter turn to the right (return to front pose)
+    attire: "Bikini suit and heels."
+    notes_keywords: "Mandatory poses held approximately 3 seconds each; overall mandatory-turn segment limited."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://wnbfuk.com/
+      source_files:
+        - docs/federations_summary.tex
+        - References/wnbf/BIKINI-DIVISION-WNBF-UK-JUDGING-RULES-2025.pdf
+
+  - division_id: figure_2023
+    division_name: "Figure (2023)"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: wnbf_figure_round_1
+        round_name: "Round 1 - Symmetry"
+        judged_on: "Quarter turns (Front, Right Side, Back, Left Side)."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_figure_round_2
+        round_name: "Round 2 - Muscle tone/presentation"
+        judged_on: "Athletes perform poses as directed (no single fixed mandatory list provided in the text layer)."
+        routine_time_limit_seconds: null
+      - round_id: wnbf_figure_round_3
+        round_name: "Stage walk / presentation"
+        judged_on: "Stage walk / presentation per WNBF UK figure document."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Quarter turns: Front
+      - Quarter turns: Right Side
+      - Quarter turns: Back
+      - Quarter turns: Left Side
+    attire: "Figure suit and heels."
+    notes_keywords: "Round 2 fixed mandatory pose list not provided in summary text layer."
+    needs_verification: true
+    sources:
+      source_urls:
+        - https://wnbfuk.com/
+      source_files:
+        - docs/federations_summary.tex
+        - References/wnbf/FIGURE-MASTER-FIGURE-WNBF-UK-JUDGING-CRITERIA-2023.pdf

@@ -1,0 +1,1081 @@
+federation_id: ukbff
+federation_name: UKBFF
+season_year: null
+sources:
+  source_urls:
+    - https://www.ukbff.co.uk/categories-and-registration-timetable
+    - https://www.ukbff.co.uk/s/Federation-Rules-2018-web.pdf
+    - https://www.ukbff.co.uk/s/rules-Classic-Bodybuilder.pdf
+    - https://www.ukbff.co.uk/s/Categories-in-Classic-Physique-UKBFF.pdf
+    - https://www.ukbff.co.uk/s/mens_physique_rules.pdf
+    - https://www.ukbff.co.uk/s/womens_physique_rules.pdf
+    - https://www.ukbff.co.uk/s/bikini_category_rules.pdf
+    - https://www.ukbff.co.uk/s/bodyfitness_rules.pdf
+  source_files:
+    - docs/federations_summary.tex
+    - docs/federations_summary.pdf
+    - References/UK_Bodybuilding_Federations_Criteria_Compiled.tex
+    - References/Federation+Rules+2018+web.pdf
+    - References/rules+Classic+Bodybuilder.pdf
+    - References/Categories+in+Classic+Physique+UKBFF.pdf
+    - References/mens_physique_rules.pdf
+    - References/womens_physique_rules.pdf
+    - References/bikini_category_rules.pdf
+    - References/bodyfitness_rules.pdf
+divisions:
+  - division_id: mens_bodybuilding
+    division_name: "Men's Bodybuilding"
+    classes:
+      - class_id: mens_bb_u70
+        class_name: "70 kg"
+        min_weight_kg: null
+        max_weight_kg: 70.0
+        notes: "MEN'S BODYBUILDING (70 kg, 80 kg, 90 kg, Over 90 kg)."
+        needs_verification: false
+      - class_id: mens_bb_u80
+        class_name: "80 kg"
+        min_weight_kg: 70.0001
+        max_weight_kg: 80.0
+        notes: "MEN'S BODYBUILDING (70 kg, 80 kg, 90 kg, Over 90 kg)."
+        needs_verification: false
+      - class_id: mens_bb_u90
+        class_name: "90 kg"
+        min_weight_kg: 80.0001
+        max_weight_kg: 90.0
+        notes: "MEN'S BODYBUILDING (70 kg, 80 kg, 90 kg, Over 90 kg)."
+        needs_verification: false
+      - class_id: mens_bb_o90
+        class_name: "Over 90 kg"
+        min_weight_kg: 90.0001
+        max_weight_kg: null
+        notes: "MEN'S BODYBUILDING (70 kg, 80 kg, 90 kg, Over 90 kg)."
+        needs_verification: false
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes:
+        - class_id: mens_bb_u70
+          class_name: "70 kg"
+          min_height_cm: null
+          max_height_cm: null
+          min_weight_kg: null
+          max_weight_kg: 70.0
+          notes: "MEN'S BODYBUILDING (70 kg, 80 kg, 90 kg, Over 90 kg)."
+          needs_verification: false
+        - class_id: mens_bb_u80
+          class_name: "80 kg"
+          min_height_cm: null
+          max_height_cm: null
+          min_weight_kg: 70.0001
+          max_weight_kg: 80.0
+          notes: "MEN'S BODYBUILDING (70 kg, 80 kg, 90 kg, Over 90 kg)."
+          needs_verification: false
+        - class_id: mens_bb_u90
+          class_name: "90 kg"
+          min_height_cm: null
+          max_height_cm: null
+          min_weight_kg: 80.0001
+          max_weight_kg: 90.0
+          notes: "MEN'S BODYBUILDING (70 kg, 80 kg, 90 kg, Over 90 kg)."
+          needs_verification: false
+        - class_id: mens_bb_o90
+          class_name: "Over 90 kg"
+          min_height_cm: null
+          max_height_cm: null
+          min_weight_kg: 90.0001
+          max_weight_kg: null
+          notes: "MEN'S BODYBUILDING (70 kg, 80 kg, 90 kg, Over 90 kg)."
+          needs_verification: false
+      height_to_weight_caps: []
+    rounds:
+      - round_id: ukbff_bb_prejudge
+        round_name: "Quarter turns / comparisons"
+        judged_on: "Quarter turns / comparisons as directed by head judge (rulebook)."
+        routine_time_limit_seconds: null
+      - round_id: ukbff_bb_compulsories
+        round_name: "Compulsory poses"
+        judged_on: "Compulsory poses used for assessment in prejudging and/or finals as instructed."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front Double Biceps
+      - Front Lat Spread
+      - Side Chest
+      - Back Double Biceps
+      - Back Lat Spread
+      - Side Triceps
+      - Abdominals and Thighs
+    attire: "Posing trunks (men)."
+    notes_keywords: "Overall muscular development; balance/symmetry; conditioning; presentation."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/s/Federation-Rules-2018-web.pdf
+      source_files:
+        - docs/federations_summary.tex
+        - References/Federation+Rules+2018+web.pdf
+
+  - division_id: mens_classic_bodybuilding
+    division_name: "Men's Classic Bodybuilding"
+    classes:
+      - class_id: cb_u168
+        class_name: "Up to and including 168 cm"
+        min_height_cm: null
+        max_height_cm: 168.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Maximum body weight = body height [cm] minus 100."
+        needs_verification: false
+      - class_id: cb_u171
+        class_name: "Up to and including 171 cm"
+        min_height_cm: 168.0001
+        max_height_cm: 171.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Maximum body weight = body height [cm] minus 100 + 2 kg."
+        needs_verification: false
+      - class_id: cb_u175
+        class_name: "Up to and including 175 cm"
+        min_height_cm: 171.0001
+        max_height_cm: 175.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Maximum body weight = body height [cm] minus 100 + 4 kg."
+        needs_verification: false
+      - class_id: cb_u180
+        class_name: "Up to and including 180 cm"
+        min_height_cm: 175.0001
+        max_height_cm: 180.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Maximum body weight = body height [cm] minus 100 + 7 kg."
+        needs_verification: false
+      - class_id: cb_180_2_190
+        class_name: "180.2 to 190 cm"
+        min_height_cm: 180.2
+        max_height_cm: 190.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Maximum body weight = body height [cm] minus 100 + 9 kg."
+        needs_verification: true
+      - class_id: cb_190_2_198
+        class_name: "190.2 to 198 cm"
+        min_height_cm: 190.2
+        max_height_cm: 198.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Maximum body weight = body height [cm] minus 100 + 11 kg."
+        needs_verification: true
+      - class_id: cb_o198
+        class_name: "Over 198 cm"
+        min_height_cm: 198.0001
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Maximum body weight = body height [cm] minus 100 + 13 kg."
+        needs_verification: false
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes:
+        - class_id: cb_u168
+          class_name: "Up to and including 168 cm"
+          min_height_cm: null
+          max_height_cm: 168.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Maximum body weight = body height [cm] minus 100."
+          needs_verification: false
+        - class_id: cb_u171
+          class_name: "Up to and including 171 cm"
+          min_height_cm: 168.0001
+          max_height_cm: 171.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Maximum body weight = body height [cm] minus 100 + 2 kg."
+          needs_verification: false
+        - class_id: cb_u175
+          class_name: "Up to and including 175 cm"
+          min_height_cm: 171.0001
+          max_height_cm: 175.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Maximum body weight = body height [cm] minus 100 + 4 kg."
+          needs_verification: false
+        - class_id: cb_u180
+          class_name: "Up to and including 180 cm"
+          min_height_cm: 175.0001
+          max_height_cm: 180.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Maximum body weight = body height [cm] minus 100 + 7 kg."
+          needs_verification: false
+        - class_id: cb_180_2_190
+          class_name: "180.2 to 190 cm"
+          min_height_cm: 180.2
+          max_height_cm: 190.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Maximum body weight = body height [cm] minus 100 + 9 kg."
+          needs_verification: true
+        - class_id: cb_190_2_198
+          class_name: "190.2 to 198 cm"
+          min_height_cm: 190.2
+          max_height_cm: 198.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Maximum body weight = body height [cm] minus 100 + 11 kg."
+          needs_verification: true
+        - class_id: cb_o198
+          class_name: "Over 198 cm"
+          min_height_cm: 198.0001
+          max_height_cm: null
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Maximum body weight = body height [cm] minus 100 + 13 kg."
+          needs_verification: false
+      weight_classes: []
+      height_to_weight_caps:
+        - cap_id: cb_cap_u168
+          class_id: cb_u168
+          min_height_cm: null
+          max_height_cm: 168.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 0.0
+          max_weight_kg: null
+          text: "maximum body weight = body height [cm] minus 100"
+          needs_verification: false
+        - cap_id: cb_cap_u171
+          class_id: cb_u171
+          min_height_cm: 168.0001
+          max_height_cm: 171.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 2.0
+          max_weight_kg: null
+          text: "maximum body weight = body height [cm] minus 100 + 2 kg"
+          needs_verification: false
+        - cap_id: cb_cap_u175
+          class_id: cb_u175
+          min_height_cm: 171.0001
+          max_height_cm: 175.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 4.0
+          max_weight_kg: null
+          text: "maximum body weight = body height [cm] minus 100 + 4 kg"
+          needs_verification: false
+        - cap_id: cb_cap_u180
+          class_id: cb_u180
+          min_height_cm: 175.0001
+          max_height_cm: 180.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 7.0
+          max_weight_kg: null
+          text: "maximum body weight = body height [cm] minus 100 + 7 kg"
+          needs_verification: false
+        - cap_id: cb_cap_180_2_190
+          class_id: cb_180_2_190
+          min_height_cm: 180.2
+          max_height_cm: 190.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 9.0
+          max_weight_kg: null
+          text: "180.2 – 190 cm = body height [cm] minus 100 + 9 kg"
+          needs_verification: true
+        - cap_id: cb_cap_190_2_198
+          class_id: cb_190_2_198
+          min_height_cm: 190.2
+          max_height_cm: 198.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 11.0
+          max_weight_kg: null
+          text: "190.2 – 198 cm = body height [cm] minus 100 + 11 kg"
+          needs_verification: true
+        - cap_id: cb_cap_o198
+          class_id: cb_o198
+          min_height_cm: 198.0001
+          max_height_cm: null
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 13.0
+          max_weight_kg: null
+          text: "Over 198 cm = body height [cm] minus 100 + 13 kg"
+          needs_verification: false
+    rounds:
+      - round_id: ukbff_classic_bb_prejudging
+        round_name: "Prejudging"
+        judged_on: "Relaxed quarter turns + compulsory poses."
+        routine_time_limit_seconds: null
+      - round_id: ukbff_classic_bb_finals
+        round_name: "Finals"
+        judged_on: "Free posing routine + compulsory poses."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front Double Biceps
+      - Front Lat Spread
+      - Side Chest (any side)
+      - Side Triceps (any side)
+      - Back Double Biceps
+      - Back Lat Spread
+      - Abdominals and Thighs
+    attire: "Men must wear black posing trunks with no logos; thongs are not permitted."
+    notes_keywords: "There will be no Most Muscular."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/s/rules-Classic-Bodybuilder.pdf
+      source_files:
+        - docs/federations_summary.tex
+        - References/rules+Classic+Bodybuilder.pdf
+
+  - division_id: mens_classic_physique
+    division_name: "Men's Classic Physique"
+    classes:
+      - class_id: cp_u168
+        class_name: "Up to and including 168 cm"
+        min_height_cm: null
+        max_height_cm: 168.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) + 4 kg."
+        needs_verification: false
+      - class_id: cp_u171
+        class_name: "Over 168 cm up to and including 171 cm"
+        min_height_cm: 168.0001
+        max_height_cm: 171.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) + 6 kg."
+        needs_verification: false
+      - class_id: cp_u175
+        class_name: "Over 171 cm up to and including 175 cm"
+        min_height_cm: 171.0001
+        max_height_cm: 175.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) + 8 kg."
+        needs_verification: false
+      - class_id: cp_u180
+        class_name: "Over 175 cm up to and including 180 cm"
+        min_height_cm: 175.0001
+        max_height_cm: 180.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) + 11 kg."
+        needs_verification: false
+      - class_id: cp_180_188
+        class_name: "Over 180 cm up to and including 188 cm"
+        min_height_cm: 180.0001
+        max_height_cm: 188.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) + 13 kg."
+        needs_verification: false
+      - class_id: cp_188_198
+        class_name: "Over 188 cm up to and including 198 cm"
+        min_height_cm: 188.0001
+        max_height_cm: 198.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) + 15 kg."
+        needs_verification: false
+      - class_id: cp_o196
+        class_name: "Over 196 cm"
+        min_height_cm: 196.0001
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) + 17 kg."
+        needs_verification: true
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes:
+        - class_id: cp_u168
+          class_name: "Up to and including 168 cm"
+          min_height_cm: null
+          max_height_cm: 168.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) + 4 kg."
+          needs_verification: false
+        - class_id: cp_u171
+          class_name: "Over 168 cm up to and including 171 cm"
+          min_height_cm: 168.0001
+          max_height_cm: 171.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) + 6 kg."
+          needs_verification: false
+        - class_id: cp_u175
+          class_name: "Over 171 cm up to and including 175 cm"
+          min_height_cm: 171.0001
+          max_height_cm: 175.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) + 8 kg."
+          needs_verification: false
+        - class_id: cp_u180
+          class_name: "Over 175 cm up to and including 180 cm"
+          min_height_cm: 175.0001
+          max_height_cm: 180.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) + 11 kg."
+          needs_verification: false
+        - class_id: cp_180_188
+          class_name: "Over 180 cm up to and including 188 cm"
+          min_height_cm: 180.0001
+          max_height_cm: 188.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) + 13 kg."
+          needs_verification: false
+        - class_id: cp_188_198
+          class_name: "Over 188 cm up to and including 198 cm"
+          min_height_cm: 188.0001
+          max_height_cm: 198.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) + 15 kg."
+          needs_verification: false
+        - class_id: cp_o196
+          class_name: "Over 196 cm"
+          min_height_cm: 196.0001
+          max_height_cm: null
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) + 17 kg."
+          needs_verification: true
+      weight_classes: []
+      height_to_weight_caps:
+        - cap_id: cp_cap_u168
+          class_id: cp_u168
+          min_height_cm: null
+          max_height_cm: 168.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 4.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus FOUR (4) Kgs"
+          needs_verification: false
+        - cap_id: cp_cap_u171
+          class_id: cp_u171
+          min_height_cm: 168.0001
+          max_height_cm: 171.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 6.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus SIX (6) Kgs"
+          needs_verification: false
+        - cap_id: cp_cap_u175
+          class_id: cp_u175
+          min_height_cm: 171.0001
+          max_height_cm: 175.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 8.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus EIGHT (8) Kgs"
+          needs_verification: false
+        - cap_id: cp_cap_u180
+          class_id: cp_u180
+          min_height_cm: 175.0001
+          max_height_cm: 180.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 11.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus ELEVEN (11) Kgs"
+          needs_verification: false
+        - cap_id: cp_cap_180_188
+          class_id: cp_180_188
+          min_height_cm: 180.0001
+          max_height_cm: 188.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 13.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus THIRTEEN (13) Kgs"
+          needs_verification: false
+        - cap_id: cp_cap_188_198
+          class_id: cp_188_198
+          min_height_cm: 188.0001
+          max_height_cm: 198.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 15.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus FIFTEEN (15) kgs"
+          needs_verification: false
+        - cap_id: cp_cap_o196
+          class_id: cp_o196
+          min_height_cm: 196.0001
+          max_height_cm: null
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 17.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus SEVENTEEN (17) kgs"
+          needs_verification: true
+    rounds:
+      - round_id: ukbff_classic_physique_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Four quarter turns are used for assessment."
+        routine_time_limit_seconds: null
+      - round_id: ukbff_classic_physique_compulsory
+        round_name: "Compulsory pose round"
+        judged_on: "Compulsory pose round includes the mandatory pose list below."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Vacuum pose with hands behind the head
+      - Front double biceps
+      - Side chest
+      - Back double biceps
+      - Side triceps
+      - Abdominals and thighs
+      - Classic pose: athlete's own choice
+    attire: "Posing trunks (men)."
+    notes_keywords: "Classic aesthetics; mandatory inclusion of vacuum and classic posing elements."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/s/Categories-in-Classic-Physique-UKBFF.pdf
+      source_files:
+        - docs/federations_summary.tex
+        - References/Categories+in+Classic+Physique+UKBFF.pdf
+
+  - division_id: mens_physique
+    division_name: "Men's Physique"
+    classes:
+      - class_id: mens_physique_height_classes
+        class_name: "Various height classes"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "MEN'S PHYSIQUE (various height classes)."
+        needs_verification: true
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes:
+        - class_id: mens_physique_height_classes
+          class_name: "Various height classes"
+          min_height_cm: null
+          max_height_cm: null
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "MEN'S PHYSIQUE (various height classes)."
+          needs_verification: true
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: ukbff_mens_physique_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Front -> Quarter Turn Right -> Back -> Quarter Turn Right -> Front."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - "Front: standing relaxed with one hand on hip"
+      - "Quarter Turn Right: standing relaxed with one hand on hip"
+      - "Back: standing relaxed with one hand on hip"
+      - "Quarter Turn Right: standing relaxed with one hand on hip"
+      - "Front: standing relaxed with one hand on hip"
+    attire: "Physique shorts (details vary by show)."
+    notes_keywords: "Not a bodybuilding-style most muscular division; fixed but not flexed stance."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/s/mens_physique_rules.pdf
+      source_files:
+        - docs/federations_summary.tex
+        - References/mens_physique_rules.pdf
+
+  - division_id: womens_physique
+    division_name: "Women's Physique"
+    classes: []
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: ukbff_womens_physique_quarter_turns
+        round_name: "Quarter turns"
+        judged_on: "Four quarter turns (front/right/back/right/front) for assessment."
+        routine_time_limit_seconds: null
+      - round_id: ukbff_womens_physique_compulsory
+        round_name: "Compulsory poses"
+        judged_on: "Compulsory poses are called in the stated order."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front Double Biceps
+      - Side Triceps
+      - Back Double Biceps
+      - Abdominals and Thighs
+    attire: "Women's physique suit."
+    notes_keywords: "Muscular development and symmetry with feminine athletic look."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/s/womens_physique_rules.pdf
+      source_files:
+        - docs/federations_summary.tex
+        - References/womens_physique_rules.pdf
+
+  - division_id: bikini
+    division_name: "Bikini"
+    classes:
+      - class_id: bikini_height_classes
+        class_name: "Various height classes"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "BIKINI-FITNESS (various height classes)."
+        needs_verification: true
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes:
+        - class_id: bikini_height_classes
+          class_name: "Various height classes"
+          min_height_cm: null
+          max_height_cm: null
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "BIKINI-FITNESS (various height classes)."
+          needs_verification: true
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: ukbff_bikini_comparisons
+        round_name: "Comparison round"
+        judged_on: "Quarter turns (front, right, back, right, front)."
+        routine_time_limit_seconds: null
+      - round_id: ukbff_bikini_finals
+        round_name: "Finals"
+        judged_on: "Stage walk / I-walk."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - "Front stance: bikini pose with weight on one leg, shoulders back, arms relaxed"
+      - "Quarter turn face right: right leg to side and slightly back; left hand on hip; right arm relaxed; head turned to face judges"
+      - "Quarter turn face back: both feet staggered; display glutes/hamstrings; arms relaxed; head turned to judges"
+      - "Quarter turn face right: mirror of other side"
+      - "Face front again: return to front stance"
+    attire: "Bikini suit and heels."
+    notes_keywords: "Finals stage walk sequence is directed by head judge."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/s/bikini_category_rules.pdf
+      source_files:
+        - docs/federations_summary.tex
+        - References/bikini_category_rules.pdf
+
+  - division_id: womens_bodyfitness
+    division_name: "Women's Bodyfitness"
+    classes:
+      - class_id: masters_bodyfitness_over35
+        class_name: "Masters Bodyfitness Over 35 years"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "MASTERS BODY-FITNESS (Over 35 years)."
+        needs_verification: false
+    eligibility:
+      sex_categories:
+        - Female
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: null
+      age_rule_mode: null
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds:
+      - round_id: ukbff_bodyfitness_comparisons
+        round_name: "Comparison round"
+        judged_on: "Quarter turns (front, quarter turn right, back, quarter turn right, front)."
+        routine_time_limit_seconds: null
+    mandatory_poses:
+      - Front
+      - Quarter Turn Right
+      - Back
+      - Quarter Turn Right
+      - Front
+    attire: "Bodyfitness suit and heels."
+    notes_keywords: "Finals may include stage walk; follow promoter instructions."
+    needs_verification: false
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/s/bodyfitness_rules.pdf
+      source_files:
+        - docs/federations_summary.tex
+        - References/bodyfitness_rules.pdf
+
+  - division_id: junior_general_16_23
+    division_name: "Junior Categories (General UKBFF rule)"
+    classes:
+      - class_id: junior_bodybuilding
+        class_name: "Junior Bodybuilding"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "JUNIOR BODYBUILDING (16-23 years)."
+        needs_verification: false
+      - class_id: junior_mens_physique
+        class_name: "Junior Men's Physique"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "JUNIOR MEN'S PHYSIQUE (16-23 years)."
+        needs_verification: false
+      - class_id: junior_bikini_fitness
+        class_name: "Junior Bikini-Fitness"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "JUNIOR BIKINI-FITNESS (16-23 years)."
+        needs_verification: false
+    eligibility:
+      sex_categories: []
+      age_min_years: 16
+      age_max_years: 23
+      age_rule_text: "An athlete may compete as a junior until 31 December of the year they become 23 years old."
+      age_rule_mode: year_end_max_age
+      age_rule_semantics:
+        rule_type: junior_until_dec31_year_turn
+        turn_age_years: 23
+        reference_date_field: competition_date
+        notes: "year_turns_23 = dob.year + 23; eligible if competition_date <= year_turns_23-12-31."
+        needs_verification: false
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds: []
+    mandatory_poses: null
+    attire: null
+    notes_keywords: "For 2025, a junior has to be born between 2002 and 2009 (inclusive), as stated by UKBFF."
+    needs_verification: true
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/categories-and-registration-timetable
+      source_files:
+        - docs/federations_summary.tex
+
+  - division_id: masters_general
+    division_name: "Masters Categories (General UKBFF rule)"
+    classes:
+      - class_id: masters_men_over40
+        class_name: "Masters Men Over 40"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Males may compete as a master from 1 January of the year they become 40."
+        needs_verification: false
+      - class_id: masters_men_over50
+        class_name: "Masters Men Over 50"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Males may compete as a master from 1 January of the year they become 50."
+        needs_verification: false
+      - class_id: masters_men_over60
+        class_name: "Masters Men Over 60"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Males may compete as a master from 1 January of the year they become 60."
+        needs_verification: false
+      - class_id: masters_women_over35
+        class_name: "Masters Women Over 35"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Females may compete as a master from 1 January of the year they become 35."
+        needs_verification: false
+      - class_id: masters_women_over40
+        class_name: "Masters Women Over 40"
+        min_height_cm: null
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Females may compete as a master from 1 January of the year they become 40."
+        needs_verification: false
+    eligibility:
+      sex_categories: []
+      age_min_years: null
+      age_max_years: null
+      age_rule_text: "Masters categories begin from 1 January of the year the athlete reaches the minimum age for the class."
+      age_rule_mode: year_start_min_age
+      age_rule_semantics:
+        rule_type: masters_from_jan1_year_turn
+        turn_age_years: null
+        reference_date_field: competition_date
+        notes: "Minimum age N depends on selected masters class; machine semantics cannot infer N from this division-level rule alone."
+        needs_verification: true
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes: []
+      weight_classes: []
+      height_to_weight_caps: []
+    rounds: []
+    mandatory_poses: null
+    attire: null
+    notes_keywords: "UKBFF note: categories may be split/combined or additional height/weight classes added depending on entries."
+    needs_verification: true
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/categories-and-registration-timetable
+      source_files:
+        - docs/federations_summary.tex
+
+  - division_id: junior_mens_classic_bodybuilding
+    division_name: "Junior Men's Classic Bodybuilding"
+    classes:
+      - class_id: jcb_u168
+        class_name: "Up to and including 168 cm"
+        min_height_cm: null
+        max_height_cm: 168.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) plus TWO (2) Kgs."
+        needs_verification: false
+      - class_id: jcb_u171
+        class_name: "Up to and including 171 cm"
+        min_height_cm: 168.0001
+        max_height_cm: 171.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) plus THREE (3) kilos."
+        needs_verification: false
+      - class_id: jcb_u175
+        class_name: "Up to and including 175 cm"
+        min_height_cm: 171.0001
+        max_height_cm: 175.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) plus FOUR (4) kilos."
+        needs_verification: false
+      - class_id: jcb_u180
+        class_name: "Up to and including 180 cm"
+        min_height_cm: 175.0001
+        max_height_cm: 180.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) plus SIX (6) kilos."
+        needs_verification: false
+      - class_id: jcb_180_188
+        class_name: "Over 180 cm up to and including 188 cm"
+        min_height_cm: 180.0001
+        max_height_cm: 188.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) plus SEVEN (7) kgs."
+        needs_verification: false
+      - class_id: jcb_188_196
+        class_name: "Over 188 cm up to and including 196 cm"
+        min_height_cm: 188.0001
+        max_height_cm: 196.0
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) plus EIGHT (8) kgs."
+        needs_verification: false
+      - class_id: jcb_o196
+        class_name: "Over 196 cm"
+        min_height_cm: 196.0001
+        max_height_cm: null
+        min_weight_kg: null
+        max_weight_kg: null
+        notes: "Max Weight [kg] = (Height [cm] - 100) plus NINE (9) Kgs."
+        needs_verification: false
+    eligibility:
+      sex_categories:
+        - Male
+      age_min_years: 16
+      age_max_years: 23
+      age_rule_text: "An athlete may compete as a junior until 31 December of the year they become 23 years old."
+      age_rule_mode: year_end_max_age
+      age_rule_semantics:
+        rule_type: junior_until_dec31_year_turn
+        turn_age_years: 23
+        reference_date_field: competition_date
+        notes: "year_turns_23 = dob.year + 23; eligible if competition_date <= year_turns_23-12-31."
+        needs_verification: false
+      novice_restriction_text: null
+      first_timer_only: false
+      height_classes:
+        - class_id: jcb_u168
+          class_name: "Up to and including 168 cm"
+          min_height_cm: null
+          max_height_cm: 168.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) plus TWO (2) Kgs."
+          needs_verification: false
+        - class_id: jcb_u171
+          class_name: "Up to and including 171 cm"
+          min_height_cm: 168.0001
+          max_height_cm: 171.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) plus THREE (3) kilos."
+          needs_verification: false
+        - class_id: jcb_u175
+          class_name: "Up to and including 175 cm"
+          min_height_cm: 171.0001
+          max_height_cm: 175.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) plus FOUR (4) kilos."
+          needs_verification: false
+        - class_id: jcb_u180
+          class_name: "Up to and including 180 cm"
+          min_height_cm: 175.0001
+          max_height_cm: 180.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) plus SIX (6) kilos."
+          needs_verification: false
+        - class_id: jcb_180_188
+          class_name: "Over 180 cm up to and including 188 cm"
+          min_height_cm: 180.0001
+          max_height_cm: 188.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) plus SEVEN (7) kgs."
+          needs_verification: false
+        - class_id: jcb_188_196
+          class_name: "Over 188 cm up to and including 196 cm"
+          min_height_cm: 188.0001
+          max_height_cm: 196.0
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) plus EIGHT (8) kgs."
+          needs_verification: false
+        - class_id: jcb_o196
+          class_name: "Over 196 cm"
+          min_height_cm: 196.0001
+          max_height_cm: null
+          min_weight_kg: null
+          max_weight_kg: null
+          notes: "Max Weight [kg] = (Height [cm] - 100) plus NINE (9) Kgs."
+          needs_verification: false
+      weight_classes: []
+      height_to_weight_caps:
+        - cap_id: jcb_cap_u168
+          class_id: jcb_u168
+          min_height_cm: null
+          max_height_cm: 168.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 2.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus TWO (2) Kgs"
+          needs_verification: false
+        - cap_id: jcb_cap_u171
+          class_id: jcb_u171
+          min_height_cm: 168.0001
+          max_height_cm: 171.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 3.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus THREE (3) kilos"
+          needs_verification: false
+        - cap_id: jcb_cap_u175
+          class_id: jcb_u175
+          min_height_cm: 171.0001
+          max_height_cm: 175.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 4.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus FOUR (4) kilos"
+          needs_verification: false
+        - cap_id: jcb_cap_u180
+          class_id: jcb_u180
+          min_height_cm: 175.0001
+          max_height_cm: 180.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 6.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus SIX (6) kilos"
+          needs_verification: false
+        - cap_id: jcb_cap_180_188
+          class_id: jcb_180_188
+          min_height_cm: 180.0001
+          max_height_cm: 188.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 7.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus SEVEN (7) kgs"
+          needs_verification: false
+        - cap_id: jcb_cap_188_196
+          class_id: jcb_188_196
+          min_height_cm: 188.0001
+          max_height_cm: 196.0
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 8.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus EIGHT (8) kgs"
+          needs_verification: false
+        - cap_id: jcb_cap_o196
+          class_id: jcb_o196
+          min_height_cm: 196.0001
+          max_height_cm: null
+          formula_type: height_minus_100_plus
+          formula_plus_kg: 9.0
+          max_weight_kg: null
+          text: "Max Weight [kg] = (Height [cm] - 100) plus NINE (9) Kgs"
+          needs_verification: false
+    rounds: []
+    mandatory_poses: null
+    attire: null
+    notes_keywords: "Junior Men's Classic Bodybuilding bodyweight limitations are half of the Senior classes."
+    needs_verification: true
+    sources:
+      source_urls:
+        - https://www.ukbff.co.uk/s/Categories-in-Classic-Physique-UKBFF.pdf
+      source_files:
+        - docs/federations_summary.tex
+        - References/Categories+in+Classic+Physique+UKBFF.pdf

@@ -1,0 +1,129 @@
+{
+  "user": "edwin",
+  "pose": "bb_front_double_biceps",
+  "voxel_size_m": 0.008,
+  "angles": [
+    0,
+    90,
+    180,
+    270
+  ],
+  "captures": [
+    {
+      "angle_deg": 0,
+      "timestamp": 1770256037.8851697,
+      "dir": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_0",
+      "paths": {
+        "pcd": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_0/view_0.pcd",
+        "ply": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_0/view_0.ply",
+        "mask": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_0/view_0_mask.png",
+        "depth": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_0/view_0_depth.png",
+        "depth_npy": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_0/view_0_depth.npy"
+      },
+      "z_center": 1.4942727088928223,
+      "margin_px": 24,
+      "frame_shape": [
+        424,
+        512
+      ],
+      "intrinsics": {
+        "fx": 364.4905090332031,
+        "fy": 364.4905090332031,
+        "cx": 260.1210021972656,
+        "cy": 203.29840087890625,
+        "k1": 0.09261216968297958,
+        "k2": -0.2715609073638916,
+        "k3": 0.09449642151594162,
+        "p1": 0.0,
+        "p2": 0.0
+      }
+    },
+    {
+      "angle_deg": 90,
+      "timestamp": 1770256043.5528934,
+      "dir": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_1",
+      "paths": {
+        "pcd": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_1/view_1.pcd",
+        "ply": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_1/view_1.ply",
+        "mask": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_1/view_1_mask.png",
+        "depth": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_1/view_1_depth.png",
+        "depth_npy": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_1/view_1_depth.npy"
+      },
+      "z_center": 1.494325041770935,
+      "margin_px": 24,
+      "frame_shape": [
+        424,
+        512
+      ],
+      "intrinsics": {
+        "fx": 364.4905090332031,
+        "fy": 364.4905090332031,
+        "cx": 260.1210021972656,
+        "cy": 203.29840087890625,
+        "k1": 0.09261216968297958,
+        "k2": -0.2715609073638916,
+        "k3": 0.09449642151594162,
+        "p1": 0.0,
+        "p2": 0.0
+      }
+    },
+    {
+      "angle_deg": 180,
+      "timestamp": 1770256049.2390218,
+      "dir": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_2",
+      "paths": {
+        "pcd": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_2/view_2.pcd",
+        "ply": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_2/view_2.ply",
+        "mask": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_2/view_2_mask.png",
+        "depth": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_2/view_2_depth.png",
+        "depth_npy": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_2/view_2_depth.npy"
+      },
+      "z_center": 1.4513695240020752,
+      "margin_px": 25,
+      "frame_shape": [
+        424,
+        512
+      ],
+      "intrinsics": {
+        "fx": 364.4905090332031,
+        "fy": 364.4905090332031,
+        "cx": 260.1210021972656,
+        "cy": 203.29840087890625,
+        "k1": 0.09261216968297958,
+        "k2": -0.2715609073638916,
+        "k3": 0.09449642151594162,
+        "p1": 0.0,
+        "p2": 0.0
+      }
+    },
+    {
+      "angle_deg": 270,
+      "timestamp": 1770256054.9218943,
+      "dir": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_3",
+      "paths": {
+        "pcd": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_3/view_3.pcd",
+        "ply": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_3/view_3.ply",
+        "mask": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_3/view_3_mask.png",
+        "depth": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_3/view_3_depth.png",
+        "depth_npy": "/home/eherrera-chacon/Bodybuilding_Coach/bbcoach/data/scans/edwin/20260205_014712/view_3/view_3_depth.npy"
+      },
+      "z_center": 1.4529167413711548,
+      "margin_px": 25,
+      "frame_shape": [
+        424,
+        512
+      ],
+      "intrinsics": {
+        "fx": 364.4905090332031,
+        "fy": 364.4905090332031,
+        "cx": 260.1210021972656,
+        "cy": 203.29840087890625,
+        "k1": 0.09261216968297958,
+        "k2": -0.2715609073638916,
+        "k3": 0.09449642151594162,
+        "p1": 0.0,
+        "p2": 0.0
+      }
+    }
+  ]
+}

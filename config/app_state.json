@@ -1,0 +1,29 @@
+{
+  "schema_version": 2,
+  "selected_divisions_default": [
+    {
+      "federation_id": "pca",
+      "division_id": "mens_bodybuilding",
+      "class_id": null
+    },
+    {
+      "federation_id": "pca",
+      "division_id": "classic_bodybuilding",
+      "class_id": null
+    },
+    {
+      "federation_id": "pca",
+      "division_id": "mens_physique",
+      "class_id": null
+    }
+  ],
+  "selected_divisions_by_profile": {
+    "713b5e0fe6de459fbf143bc8e034927c": [
+      {
+        "federation_id": "pca",
+        "division_id": "mens_bodybuilding_first_timers",
+        "class_id": null
+      }
+    ]
+  }
+}

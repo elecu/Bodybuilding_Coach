@@ -1,0 +1,21 @@
+# Coaching targets (not official federation rules)
+# User-editable planning guidance.
+target_bodyfat_range:
+  mens_physique:
+    min_percent: 8.0
+    max_percent: 12.0
+  classic_bodybuilding:
+    min_percent: 7.0
+    max_percent: 11.0
+  bodybuilding:
+    min_percent: 5.0
+    max_percent: 10.0
+  bikini:
+    min_percent: 12.0
+    max_percent: 18.0
+  figure:
+    min_percent: 10.0
+    max_percent: 16.0
+safe_weekly_weight_change_range:
+  min_percent_bodyweight: -1.0
+  max_percent_bodyweight: 0.5
